@@ -1,0 +1,41 @@
+---
+import '@picocss/pico/css/pico.min.css';
+
+const site = {
+  title: "znk 블로그",
+};
+---
+
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>{site.title}</title>
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <nav>
+          <ul>
+            <li>{site.title.toUpperCase()}</li>
+          </ul>
+          <ul>
+            <li><a href="/">HOME</a></li>
+            <li><a href="/blog">BLOG</a></li>
+          </ul>
+        </nav>
+      </header>
+    </div>
+    <div class="container">
+      <slot />
+    </div>
+    <div class="container">
+      <footer>
+        <div>This blog is degined by ZNK,</div>
+        <div>built with ASTRO,</div>
+        <div>and powered by GITHUB PAGES.</div>
+      </footer>
+    </div>
+  </body>
+</html>

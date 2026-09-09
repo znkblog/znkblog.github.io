@@ -1,0 +1,69 @@
+---
+import Post from '../../components/Post.astro';
+
+type Frontmatter = {
+  title: string;
+  description: string;
+  updated: string;
+};
+
+type MarkdownModule = {
+  Content: any;
+  frontmatter: Frontmatter;
+};
+
+const postModules = import.meta.glob<MarkdownModule>('../../content/**/*.md', { eager: true });
+
+const posts = Object.entries(postModules)
+  .filter(([path]) => path !== '../../content/index.md')
+  .map(([path, module]) => {
+    const fileName = path.split('/').pop() ?? '';
+    const match = fileName.match(/^\[[^\]]+\](.+)\.md$/);
+
+    return match ? { slug: match[1], module } : undefined;
+  })
+  .filter((post): post is { slug: string; module: MarkdownModule } => post !== undefined);
+
+export function getStaticPaths() {
+  const modules = import.meta.glob('../../content/**/*.md', { eager: true });
+  const usedSlugs = new Set<string>();
+
+  return Object.keys(modules)
+    .filter((path) => path !== '../../content/index.md')
+    .map((path) => {
+      const fileName = path.split('/').pop() ?? '';
+      const match = fileName.match(/^\[[^\]]+\](.+)\.md$/);
+
+      return match ? match[1] : undefined;
+    })
+    .filter((slug): slug is string => slug !== undefined)
+    .map((slug) => {
+      if (usedSlugs.has(slug)) {
+        throw new Error(`Duplicate blog slug: ${slug}`);
+      }
+
+      usedSlugs.add(slug);
+      return { params: { slug } };
+    });
+}
+
+const { slug } = Astro.params;
+const post = posts.find((entry) => entry.slug === slug);
+
+if (!post) {
+  throw new Error(`Blog post not found: ${slug}`);
+}
+
+const { Content, frontmatter } = post.module;
+---
+
+<Post>
+  <article>
+    <header>
+      <h1>{frontmatter.title}</h1>
+      <p>{frontmatter.description}</p>
+      <small>Updated: {frontmatter.updated.slice(0, 10)}</small>
+    </header>
+    <Content />
+  </article>
+</Post>

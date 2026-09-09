@@ -1,0 +1,12 @@
+- id: notes
+  name: Notes
+  order: asc
+- id: development
+  name: Development
+  order: desc
+- id: archive
+  name: 아카이브
+  order: desc
+- id: znk
+  name: znk 테스트
+  order: asc

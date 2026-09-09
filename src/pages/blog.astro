@@ -1,0 +1,164 @@
+---
+import Base from '../components/Base.astro';
+import { parse } from 'yaml';
+import categorySource from '../blog.yaml?raw';
+
+type Frontmatter = {
+  title: string;
+  description: string;
+  updated: string;
+};
+
+type MarkdownModule = {
+  frontmatter: Frontmatter;
+};
+
+type BlogCategory = {
+  id: string;
+  name: string;
+  order: 'asc' | 'desc';
+};
+
+const posts = import.meta.glob<MarkdownModule>('../content/**/*.md', { eager: true });
+const categories = parse(categorySource) as BlogCategory[];
+
+const blogCategories = categories.map((category) => {
+  const categoryPath = `../content/${category.id}/`;
+  const multiplier = category.order === 'desc' ? -1 : 1;
+
+  const entries = Object.entries(posts)
+    .filter(([path]) => path.startsWith(categoryPath))
+    .filter(([path]) => /^\[[^\]]+\].+\.md$/.test(path.split('/').pop() ?? ''))
+    .map(([path, post]) => {
+      const fileName = path.split('/').pop() ?? '';
+      const [, sequence, slug] = fileName.match(/^\[([^\]]+)\](.+)\.md$/)!;
+
+      return { frontmatter: post.frontmatter, sequence, slug };
+    })
+    .sort((left, right) => left.sequence.localeCompare(right.sequence, undefined, { numeric: true }) * multiplier);
+
+  return { ...category, entries };
+});
+---
+
+<Base>
+  <main>
+    <form id="blog-search" role="search">
+      <div class="search-controls">
+        <input id="blog-search-input" type="search" placeholder="Search posts by title" aria-label="Search posts by title" />
+        <button type="submit" aria-label="Search posts">
+          <svg aria-hidden="true" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="11" cy="11" r="6" />
+            <path d="m16 16 4 4" />
+          </svg>
+        </button>
+      </div>
+    </form>
+    <h1>Blogs</h1>
+    {
+      blogCategories.map((category) => (
+        <section>
+          <h2>{category.name}</h2>
+          {category.entries.length > 0 ? (
+            <ul>
+              {category.entries.map(({ frontmatter, slug }) => (
+                <li data-post data-title={frontmatter.title}>
+                  <article>
+                    <header>
+                      <h3><a data-post-title href={`/blog/${slug}`}>{frontmatter.title}</a></h3>
+                    </header>
+                    <p>{frontmatter.description}</p>
+                    <small>Updated: {frontmatter.updated.slice(0, 10)}</small>
+                  </article>
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <p>해당 카테고리에는 포스팅이 없습니다.</p>
+          )}
+        </section>
+      ))
+    }
+  </main>
+  <script>
+    const form = document.querySelector('#blog-search');
+    const input = document.querySelector('#blog-search-input');
+    const posts = Array.from(document.querySelectorAll('[data-post]'));
+    const emptyCategoryMessages = Array.from(document.querySelectorAll('main > section > p'));
+
+    function setTitleHighlight(titleElement: Element, title: string, query: string) {
+      const normalizedTitle = title.toLocaleLowerCase();
+      const normalizedQuery = query.toLocaleLowerCase();
+      const matchIndex = normalizedTitle.indexOf(normalizedQuery);
+
+      titleElement.replaceChildren();
+
+      if (matchIndex === -1 || query === '') {
+        titleElement.textContent = title;
+        return;
+      }
+
+      titleElement.append(
+        document.createTextNode(title.slice(0, matchIndex)),
+        Object.assign(document.createElement('mark'), { textContent: title.slice(matchIndex, matchIndex + query.length) }),
+        document.createTextNode(title.slice(matchIndex + query.length)),
+      );
+    }
+
+    function resetSearch() {
+      posts.forEach((post) => {
+        post.hidden = false;
+        const title = post.dataset.title ?? '';
+        const titleElement = post.querySelector('[data-post-title]');
+
+        if (titleElement) setTitleHighlight(titleElement, title, '');
+      });
+      emptyCategoryMessages.forEach((message) => { message.hidden = false; });
+    }
+
+    function runSearch() {
+      const query = input instanceof HTMLInputElement ? input.value.trim() : '';
+      if (query === '') return;
+
+      posts.forEach((post) => {
+        const title = post.dataset.title ?? '';
+        const isMatch = title.toLocaleLowerCase().includes(query.toLocaleLowerCase());
+        post.hidden = !isMatch;
+
+        const titleElement = post.querySelector('[data-post-title]');
+        if (titleElement) setTitleHighlight(titleElement, title, isMatch ? query : '');
+      });
+      emptyCategoryMessages.forEach((message) => { message.hidden = true; });
+    }
+
+    form?.addEventListener('submit', (event) => {
+      event.preventDefault();
+      runSearch();
+    });
+
+    input?.addEventListener('input', () => {
+      if (input instanceof HTMLInputElement && input.value.trim() === '') resetSearch();
+    });
+  </script>
+</Base>
+
+<style>
+  .search-controls {
+    display: flex;
+    align-items: center;
+    gap: var(--pico-spacing);
+  }
+
+  .search-controls input,
+  .search-controls button {
+    margin-bottom: 0;
+  }
+
+  .search-controls input {
+    flex: 1;
+  }
+
+  .search-controls button {
+    width: auto;
+  }
+</style>
