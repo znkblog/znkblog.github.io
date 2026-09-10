@@ -6,21 +6,22 @@
 
 - Astro `7.3.1`
 - Pico CSS `2.1.1` (`@picocss/pico`)
+- Sass Embedded (`sass-embedded`, 개발 의존성)
 - YAML 파서 `yaml` (`2.9.0`)
-- 정적 사이트 출력
 - 의존성은 npm으로 관리합니다.
 - 기존 루트 `README.md`는 저장소 소개 문서이므로 유지합니다.
 
 ## 프로젝트 구조
 
-- `src/components/Base.astro`: 기본 HTML 문서 구조, Pico CSS 전역 import, 공통 헤더/푸터와 `<slot />`을 담당합니다. 기존 링크 구조를 보존합니다.
-- `src/components/Post.astro`: `Base.astro`를 감싸는 글 페이지 레이아웃입니다.
-- `src/content/index.md`: 홈페이지 콘텐츠이며, 블로그 글 목록과 동적 글 페이지 생성에서 제외합니다.
+- `src/components/Base.astro`: 기본 HTML 문서 구조, Pico CSS 전역 import, 공통 헤더/푸터와 `<slot />`을 담당합니다. 사용자가 수정한 내비게이션 링크는 보존합니다.
+- `src/components/Post.astro`: `title`, `description`, `updated`를 `Astro.props`로 받아 slot을 렌더링하는 글 레이아웃입니다.
+- `src/content/index.md`: 홈페이지 콘텐츠이며, 블로그 글 목록과 개별 글 경로 생성에서 제외합니다.
 - `src/content/<category>/`: 블로그 Markdown 글을 둡니다.
 - `src/blog.yaml`: 블로그 카테고리 메타데이터입니다.
-- `src/pages/index.astro`: `src/content/index.md`를 `Post` 안에서 렌더링합니다.
-- `src/pages/blog.astro`: `/blog`의 카테고리별 글 목록입니다.
+- `src/pages/index.astro`: `src/content/index.md`를 import하고 frontmatter를 `Post`에 전달합니다.
+- `src/pages/blog.astro`: `/blog`의 접이식 카테고리별 글 목록과 제목 검색·강조 기능을 담당합니다.
 - `src/pages/blog/[...slug].astro`: 개별 정적 글 페이지를 생성합니다.
+- `.github/workflows/deploy-pages.yml`: 수동 실행하는 GitHub Pages 빌드·배포 워크플로입니다.
 - 정적 파일은 `public/`에 둡니다.
 
 ## Markdown 콘텐츠 규칙
@@ -40,7 +41,14 @@
   - `order`: 파일명 순번의 정렬 방향으로 `asc` 또는 `desc`
 - `/blog`에는 YAML에 정의된 카테고리만 표시합니다.
 - YAML에 등록된 카테고리의 폴더가 없거나 글이 없으면 안내문을 표시합니다.
-- `/blog` 검색은 제목만 대상으로 합니다. Enter 또는 돋보기 버튼으로 실행하며, 일치하지 않는 글을 숨기고 일치하는 제목 부분을 `<mark>`로 강조합니다. 검색어를 비우면 원래 목록을 복원합니다.
+- 카테고리는 처음에 접힌 상태이며, 클릭 가능한 제목 앞에 접힘 상태에서는 `▷`, 펼친 상태에서는 `▽`를 표시합니다.
+- `/blog` 검색은 제목만 대상으로 합니다. Enter 또는 돋보기 버튼으로 실행하며, 일치하지 않는 글을 숨기고 일치하는 제목 부분을 `<mark>`로 강조합니다. 검색 결과가 있는 카테고리는 자동으로 펼치며, 검색어를 비우면 전체 목록을 다시 접습니다.
+
+## GitHub Pages 배포
+
+- `.github/workflows/deploy-pages.yml`은 `workflow_dispatch`로 수동 실행할 때만 동작합니다.
+- 워크플로는 Node.js `24`에서 `npm ci`, `npm run build`를 실행한 뒤 생성된 `dist/` 디렉터리를 공식 GitHub Pages 액션으로 배포합니다.
+- 저장소의 GitHub Pages 설정에서 배포 원본으로 **GitHub Actions**를 선택합니다.
 
 ## 개발 서버
 
@@ -51,12 +59,8 @@
 
 PowerShell 실행 정책으로 `npm`이 차단될 수 있으므로, 이 환경에서는 `npm.cmd`를 사용합니다.
 
-- `npm.cmd run dev`: 개발 서버를 실행합니다.
-- `npm.cmd run build`: 정적 프로덕션 빌드를 생성합니다.
-- `npm.cmd run preview`: 빌드 결과를 로컬에서 미리 봅니다.
+- `npm.cmd run dev`
+- `npm.cmd run build`
+- `npm.cmd run preview`
 
-## 작업 지침
-
-- 블로그 콘텐츠와 페이지는 `src/` 아래에 추가합니다.
-- Markdown 콘텐츠의 frontmatter 및 파일명 규칙을 지킵니다.
-- 변경 후에는 관련되는 경우 `npm.cmd run build`로 빌드를 확인합니다.
+관련 변경 후에는 `npm.cmd run build`로 빌드를 확인합니다.

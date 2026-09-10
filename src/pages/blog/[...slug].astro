@@ -57,13 +57,6 @@ if (!post) {
 const { Content, frontmatter } = post.module;
 ---
 
-<Post>
-  <article>
-    <header>
-      <h1>{frontmatter.title}</h1>
-      <p>{frontmatter.description}</p>
-      <small>Updated: {frontmatter.updated.slice(0, 10)}</small>
-    </header>
-    <Content />
-  </article>
+<Post {...frontmatter}>
+  <Content />
 </Post>

@@ -45,37 +45,40 @@ const blogCategories = categories.map((category) => {
   <main>
     <form id="blog-search" role="search">
       <div class="search-controls">
-        <input id="blog-search-input" type="search" placeholder="Search posts by title" aria-label="Search posts by title" />
-        <button type="submit" aria-label="Search posts">
-          <svg aria-hidden="true" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+        <input id="blog-search-input" type="search" placeholder="찾고 싶은 포스팅 제목 입력하고 Enter 누르세요" aria-label="Search posts by title" />
+        <button id="blog-search-button" type="submit" aria-label="Search posts">
+          <!-- <svg aria-hidden="true" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
             <circle cx="11" cy="11" r="6" />
             <path d="m16 16 4 4" />
-          </svg>
+          </svg> -->
+          🔎
         </button>
       </div>
     </form>
-    <h1>Blogs</h1>
+    <div>아래 보이는 카테고리를 클릭하면 해당 포스팅들이 표시됨</div>
     {
       blogCategories.map((category) => (
-        <section>
+        <section class="cat">
+          <details class="blog-category">
+            <summary>
           <h2>{category.name}</h2>
+            </summary>
           {category.entries.length > 0 ? (
             <ul>
               {category.entries.map(({ frontmatter, slug }) => (
                 <li data-post data-title={frontmatter.title}>
                   <article>
-                    <header>
-                      <h3><a data-post-title href={`/blog/${slug}`}>{frontmatter.title}</a></h3>
-                    </header>
-                    <p>{frontmatter.description}</p>
-                    <small>Updated: {frontmatter.updated.slice(0, 10)}</small>
+                    <h3>📝 <a data-post-title href={`/blog/${slug}`}>{frontmatter.title}</a></h3>
+                    <div>📢 {frontmatter.description}</div>
+                    <div>🗓️ Last updated: {frontmatter.updated.slice(0, 10)}</div>
                   </article>
                 </li>
               ))}
             </ul>
           ) : (
-            <p>해당 카테고리에는 포스팅이 없습니다.</p>
+            <small>해당 카테고리에는 포스팅이 없습니다.</small>
           )}
+          </details>
         </section>
       ))
     }
@@ -84,6 +87,7 @@ const blogCategories = categories.map((category) => {
     const form = document.querySelector('#blog-search');
     const input = document.querySelector('#blog-search-input');
     const posts = Array.from(document.querySelectorAll('[data-post]'));
+    const categories = Array.from(document.querySelectorAll<HTMLDetailsElement>('.blog-category'));
     const emptyCategoryMessages = Array.from(document.querySelectorAll('main > section > p'));
 
     function setTitleHighlight(titleElement: Element, title: string, query: string) {
@@ -114,6 +118,7 @@ const blogCategories = categories.map((category) => {
         if (titleElement) setTitleHighlight(titleElement, title, '');
       });
       emptyCategoryMessages.forEach((message) => { message.hidden = false; });
+      categories.forEach((category) => { category.open = false; });
     }
 
     function runSearch() {
@@ -129,6 +134,9 @@ const blogCategories = categories.map((category) => {
         if (titleElement) setTitleHighlight(titleElement, title, isMatch ? query : '');
       });
       emptyCategoryMessages.forEach((message) => { message.hidden = true; });
+      categories.forEach((category) => {
+        category.open = category.querySelector('[data-post]:not([hidden])') !== null;
+      });
     }
 
     form?.addEventListener('submit', (event) => {
@@ -143,10 +151,18 @@ const blogCategories = categories.map((category) => {
 </Base>
 
 <style>
+  #blog-search {
+    margin: 3rem 0;
+  }
+
+  .cat {
+    margin: 3rem 0;
+  }
+
   .search-controls {
     display: flex;
     align-items: center;
-    gap: var(--pico-spacing);
+    /* gap: var(--pico-spacing); */
   }
 
   .search-controls input,
@@ -160,5 +176,28 @@ const blogCategories = categories.map((category) => {
 
   .search-controls button {
     width: auto;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+  }
+
+  .blog-category summary {
+    cursor: pointer;
+    list-style: none;
+  }
+
+  .blog-category summary::-webkit-details-marker {
+    display: none;
+  }
+
+  /* .blog-category summary::before {
+    content: '▷';
+  }
+
+  .blog-category[open] summary::before {
+    content: '▽';
+  } */
+
+  .blog-category summary h2 {
+    display: inline-block;
   }
 </style>

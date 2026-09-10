@@ -14,28 +14,54 @@ const site = {
     <title>{site.title}</title>
   </head>
   <body>
-    <div class="container">
-      <header>
-        <nav>
-          <ul>
-            <li>{site.title.toUpperCase()}</li>
-          </ul>
-          <ul>
-            <li><a href="/">HOME</a></li>
-            <li><a href="/blog">BLOG</a></li>
-          </ul>
-        </nav>
-      </header>
-    </div>
-    <div class="container">
-      <slot />
-    </div>
-    <div class="container">
-      <footer>
-        <div>This blog is degined by ZNK,</div>
-        <div>built with ASTRO,</div>
-        <div>and powered by GITHUB PAGES.</div>
-      </footer>
+    <div class="layout">
+      <div class="container">
+        <header>
+          <nav>
+            <ul>
+              <li>👍 {site.title.toUpperCase()}</li>
+            </ul>
+            <ul>
+              <li><a href="/">HOME</a></li>
+              <li><a href="/blog">BLOG</a></li>
+            </ul>
+          </nav>
+        </header>
+      </div>
+      <div class="container">
+        <slot />
+      </div>
+      <div class="container last">
+        <footer>
+          <div>This blog is degined by ZNK,</div>
+          <div>built with ASTRO,</div>
+          <div>and powered by GITHUB PAGES.</div>
+        </footer>
+      </div>
     </div>
   </body>
 </html>
+
+<style lang="scss">
+  body {
+    position: fixed; top: 0; right: 0; bottom: 0; left: 0;
+  }
+  .layout {
+    overflow-y: scroll;
+    height: 100%;
+  }
+  header {
+    margin: 1rem 0;
+  }
+  .last {
+    position: sticky; top: 100vh;
+  }
+  footer {
+    margin: 3rem 0;
+    padding-bottom: 3rem;
+
+    display: flex; justify-content: center; align-items: center;
+    flex-wrap: wrap; column-gap: 1rem;
+
+  }
+</style>

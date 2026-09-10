@@ -1,8 +1,8 @@
 ---
-import { Content } from '../content/index.md';
+import { Content, frontmatter } from '../content/index.md';
 import Post from '../components/Post.astro';
 ---
 
-<Post>
+<Post {...frontmatter}>
   <Content />
 </Post>
