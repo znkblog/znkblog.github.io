@@ -6,7 +6,6 @@
 
 - Astro `7.3.1`
 - Pico CSS `2.1.1` (`@picocss/pico`)
-- Sass Embedded (`sass-embedded`, 개발 의존성)
 - YAML 파서 `yaml` (`2.9.0`)
 - 의존성은 npm으로 관리합니다.
 - 기존 루트 `README.md`는 저장소 소개 문서이므로 유지합니다.
@@ -23,6 +22,7 @@
 - `src/pages/blog/[...slug].astro`: 개별 정적 글 페이지를 생성합니다.
 - `.github/workflows/deploy-pages.yml`: 수동 실행하는 GitHub Pages 빌드·배포 워크플로입니다.
 - 정적 파일은 `public/`에 둡니다.
+- Astro 컴포넌트 스타일은 일반 CSS를 사용하며, Sass·SCSS 의존성과 `lang="scss"` 스타일 태그를 추가하지 않습니다.
 
 ## Markdown 콘텐츠 규칙
 

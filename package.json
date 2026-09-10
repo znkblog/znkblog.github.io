@@ -18,8 +18,5 @@
   },
   "allowScripts": {
     "esbuild": true
-  },
-  "devDependencies": {
-    "sass-embedded": "^1.104.0"
   }
 }
