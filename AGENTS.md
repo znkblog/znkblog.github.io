@@ -47,7 +47,7 @@
 ## GitHub Pages 배포
 
 - `.github/workflows/deploy-pages.yml`은 `workflow_dispatch`로 수동 실행할 때만 동작합니다.
-- 워크플로는 Node.js `24`에서 `npm ci`, `npm run build`를 실행한 뒤 생성된 `dist/` 디렉터리를 공식 GitHub Pages 액션으로 배포합니다.
+- 워크플로는 Node.js `24`에서 `npm i`, `npm run build`를 실행한 뒤 생성된 `dist/` 디렉터리를 공식 GitHub Pages 액션으로 배포합니다.
 - 저장소의 GitHub Pages 설정에서 배포 원본으로 **GitHub Actions**를 선택합니다.
 
 ## 개발 서버
