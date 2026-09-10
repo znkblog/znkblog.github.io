@@ -1,0 +1,6 @@
+{
+  "mdPasteEnhanced.path": "${projectRoot}/public/images",
+  "mdPasteEnhanced.basePath": "${projectRoot}/public",
+  "mdPasteEnhanced.renderPattern": "![](/${imagePath})",
+//   "markdown.editor.filePaste.enabled": "never"
+}

@@ -1,4 +1,7 @@
 {
-  "recommendations": ["astro-build.astro-vscode"],
+  "recommendations": [
+    "astro-build.astro-vscode",
+    "dzylikecode.md-paste-enhanced"
+  ],
   "unwantedRecommendations": []
 }

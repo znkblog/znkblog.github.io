@@ -20,7 +20,7 @@ type BlogCategory = {
 };
 
 const posts = import.meta.glob<MarkdownModule>('../content/**/*.md', { eager: true });
-const categories = parse(categorySource) as BlogCategory[];
+const categories = parse(categorySource) as BlogCategory[] ?? [];
 
 const blogCategories = categories.map((category) => {
   const categoryPath = `../content/${category.id}/`;
@@ -39,6 +39,8 @@ const blogCategories = categories.map((category) => {
 
   return { ...category, entries };
 });
+
+
 ---
 
 <Base>

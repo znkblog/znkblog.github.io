@@ -12,6 +12,7 @@ const site = {
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
     <title>{site.title}</title>
+    <link href="https://cdn.jsdelivr.net/gh/wan2land/d2coding/d2coding-full.css" rel="stylesheet" />
   </head>
   <body>
     <div class="layout">
@@ -43,7 +44,18 @@ const site = {
 </html>
 
 <style lang="scss">
+  // :root {
+  //   --pico-font-family: 'D2Coding', monospace;
+  // }
+  // * {
+  //   font-family: 'D2Coding', monospace !important;
+  // }
+  :root {
+    --pico-font-family: 'D2Coding', ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace, var(--pico-font-family-emoji);
+    --pico-font-family-monospace: D2Coding, ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace, var(--pico-font-family-emoji);
+  }
   body {
+    
     position: fixed; top: 0; right: 0; bottom: 0; left: 0;
   }
   .layout {

@@ -1,12 +1,3 @@
-- id: notes
-  name: Notes
-  order: asc
-- id: development
-  name: Development
-  order: desc
-- id: archive
-  name: 아카이브
-  order: desc
-- id: znk
-  name: znk 테스트
+- id: algorithm
+  name: 알고리즘 스터디
   order: asc

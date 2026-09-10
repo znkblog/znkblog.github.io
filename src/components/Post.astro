@@ -34,5 +34,20 @@ const { title, description, updated } = Astro.props;
         content: "✅";
       }
     }
+
+    blockquote {
+      font-family: var(--pico-font-family-monospace);
+    }
+    blockquote ul {
+      margin: 0;
+    }
+
+    strong, b {
+      border-bottom: 1px solid;
+
+      & > code {
+        border-bottom: 1px solid;
+      }
+    }
   }
 </style>
