@@ -19,7 +19,7 @@
 - `src/content/<category>/`: 블로그 Markdown 글을 둡니다.
 - `src/blog.yaml`: 블로그 카테고리 메타데이터입니다.
 - `src/pages/index.astro`: `src/content/index.md`를 import하고 frontmatter를 `Post`에 전달합니다.
-- `src/pages/blog.astro`: `/blog`의 접이식 카테고리별 글 목록과 제목 검색·강조 기능을 담당합니다.
+- `src/pages/blog.astro`: `/blog`의 카테고리 안내문, 접이식 카테고리별 글 목록, 제목 검색·강조 기능을 담당합니다.
 - `src/pages/blog/[...slug].astro`: 개별 정적 글 페이지를 생성합니다.
 - `.github/workflows/deploy-pages.yml`: 수동 실행하는 GitHub Pages 빌드·배포 워크플로입니다.
 - 정적 파일은 `public/`에 둡니다.
@@ -41,7 +41,7 @@
   - `order`: 파일명 순번의 정렬 방향으로 `asc` 또는 `desc`
 - `/blog`에는 YAML에 정의된 카테고리만 표시합니다.
 - YAML에 등록된 카테고리의 폴더가 없거나 글이 없으면 안내문을 표시합니다.
-- 카테고리는 처음에 접힌 상태이며, 클릭 가능한 제목 앞에 접힘 상태에서는 `▷`, 펼친 상태에서는 `▽`를 표시합니다.
+- 카테고리는 처음에 접힌 상태이며, 카테고리 제목을 클릭해 펼치거나 접습니다. 접힘·펼침 표식 CSS는 현재 주석 처리되어 있어 표시하지 않습니다.
 - `/blog` 검색은 제목만 대상으로 합니다. Enter 또는 돋보기 버튼으로 실행하며, 일치하지 않는 글을 숨기고 일치하는 제목 부분을 `<mark>`로 강조합니다. 검색 결과가 있는 카테고리는 자동으로 펼치며, 검색어를 비우면 전체 목록을 다시 접습니다.
 
 ## GitHub Pages 배포
@@ -52,8 +52,8 @@
 
 ## 개발 서버
 
-- `npm run dev`는 `0.0.0.0`에 바인딩하여 실행합니다.
-- `astro.config.mjs`의 `server.allowedHosts`에는 개발 서버 접속용 `zzinnykko.iptime.org`가 등록되어 있습니다. 이 설정은 개발/미리보기 서버에만 적용되며 GitHub Pages 정적 배포물에는 영향을 주지 않습니다.
+- `npm run dev`는 Astro의 기본값인 `localhost`에만 바인딩하여 실행합니다. 외부 네트워크에서는 개발 서버에 접속할 수 없습니다.
+- `astro.config.mjs`에는 외부 호스트를 허용하는 개발 서버 설정을 두지 않습니다.
 
 ## 명령어
 
