@@ -6,7 +6,7 @@ const { title, description, updated } = Astro.props;
 
 <Base>
 <main>
-    <h1 id="page-title" class="center">{ title }</h1>
+    <h1 id="page-title" class="center">📌 { title }</h1>
     <div class="meta">
       <div>📢 { description }</div>
       <div>🗓️ Last updated: { updated.split("T")[0] || "" }</div>
@@ -22,16 +22,12 @@ const { title, description, updated } = Astro.props;
     }
     h1 {
       margin: 3rem 0;
-
-      &:before {
-        content: "📝";
-      }
     }
     h2 {
       margin: 3rem 0 1rem 0;
 
       &:before {
-        content: "✅";
+        content: "✅ ";
       }
     }
 
