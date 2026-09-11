@@ -12,6 +12,7 @@
     "astro": "astro"
   },
   "dependencies": {
+    "@astrojs/sitemap": "^3.7.4",
     "@picocss/pico": "^2.1.1",
     "astro": "^7.3.1",
     "yaml": "^2.9.0"

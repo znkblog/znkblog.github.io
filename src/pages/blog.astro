@@ -43,7 +43,7 @@ const blogCategories = categories.map((category) => {
 
 ---
 
-<Base>
+<Base title="BLOG" description="ZNK 블로그의 카테고리별 포스팅 목록">
   <main>
     <form id="blog-search" role="search">
       <div class="search-controls">
@@ -65,7 +65,10 @@ const blogCategories = categories.map((category) => {
                   <article>
                     <h3>📌 <a data-post-title href={`/blog/${slug}`}>{frontmatter.title}</a></h3>
                     <div>📢 {frontmatter.description}</div>
-                    <div>🗓️ Last updated: {frontmatter.updated.slice(0, 10)}</div>
+                    <div>
+                      🗓️ Last updated:
+                      <time datetime={frontmatter.updated}>{frontmatter.updated.slice(0, 10)}</time>
+                    </div>
                   </article>
                 </li>
               ))}

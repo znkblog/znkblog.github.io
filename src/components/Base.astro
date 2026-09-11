@@ -3,7 +3,19 @@ import '@picocss/pico/css/pico.min.css';
 
 const site = {
   title: "znk 블로그",
+  description: "ZNK의 관심사와 IT·프로그래밍 학습 내용을 기록하는 개인 블로그",
 };
+
+type Props = {
+  title?: string;
+  description?: string;
+  updated?: string;
+};
+
+const { title = site.title, description = site.description, updated } = Astro.props;
+const pageTitle = title === site.title ? title : `${title} | ${site.title}`;
+const canonicalUrl = new URL(Astro.url.pathname, Astro.site ?? Astro.url);
+const isArticle = Boolean(updated);
 ---
 
 <!doctype html>
@@ -11,7 +23,35 @@ const site = {
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
-    <title>{site.title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalUrl} />
+    <meta property="og:type" content={isArticle ? 'article' : 'website'} />
+    <meta property="og:locale" content="ko_KR" />
+    <meta property="og:site_name" content={site.title} />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:image" content={new URL('/favicon.svg', canonicalUrl)} />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content={pageTitle} />
+    <meta name="twitter:description" content={description} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+    {isArticle && (
+      <script is:inline type="application/ld+json" set:html={JSON.stringify({
+        '@context': 'https://schema.org',
+        '@type': 'BlogPosting',
+        headline: title,
+        description,
+        dateModified: updated,
+        url: canonicalUrl.toString(),
+        publisher: {
+          '@type': 'Person',
+          name: 'ZNK',
+        },
+      })} />
+    )}
+    <title>{pageTitle}</title>
     <link href="https://cdn.jsdelivr.net/gh/wan2land/d2coding/d2coding-full.css" rel="stylesheet" />
   </head>
   <body>
@@ -34,7 +74,7 @@ const site = {
       </div>
       <div class="container last">
         <footer>
-          <div>This blog is degined by ZNK,</div>
+          <div>This blog is designed by ZNK,</div>
           <div>built with ASTRO,</div>
           <div>and powered by GITHUB PAGES.</div>
         </footer>

@@ -4,12 +4,15 @@ import Base from './Base.astro';
 const { title, description, updated } = Astro.props;
 ---
 
-<Base>
+<Base title={title} description={description} updated={updated}>
 <main>
     <h1 id="page-title" class="center">📌 { title }</h1>
     <div class="meta">
       <div>📢 { description }</div>
-      <div>🗓️ Last updated: { updated.split("T")[0] || "" }</div>
+      <div>
+        🗓️ Last updated:
+        <time datetime={updated}>{updated.split("T")[0] || ""}</time>
+      </div>
     </div>
     <slot />
 </main>
