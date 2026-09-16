@@ -27,7 +27,7 @@ updated: "2026-09-16"
 
 이렇게 생각하면 일반항 부분 수식이 이해가 됨, n-1 단계까지의 최대 부분합에 n 단계의 값을 더한것 즉 `f(n-1) + X[n]`과, n 단계 값으로 그냥 새롭게 부분합을 시작하는 것 즉 `X[n]` 중에서 더 큰 값을 n 단계의 최대 부분합으로 보겠다는 것임,
 
-# leetcode: 53. Maximum Subarray
+## leetcode: 53. Maximum Subarray
 
 [https://leetcode.com/problems/maximum-subarray/](https://leetcode.com/problems/maximum-subarray/)
 
