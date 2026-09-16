@@ -51,4 +51,4 @@ a 는 데이터셋 nums 의 i 인덱스까지의 최대 부분합을 저장하�
 
 마지막엔 i 인덱스 까지의 최대 부분합들 중 제일 큰 값을 리턴하도록 함,
 
-참고로 최대 부분합은 분할정복 방식으로도 풀이가 가능함, [다른 포스팅](blog/divide-and-conquer#leetcode:-53.-Maximum-Subarray) 참고,
+참고로 최대 부분합은 분할정복 방식으로도 풀이가 가능함, [다른 포스팅](/blog/divide-and-conquer/#leetcode-53-maximum-subarray) 참고,
