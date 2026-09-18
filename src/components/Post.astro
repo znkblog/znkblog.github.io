@@ -10,8 +10,7 @@ const { title, description, updated } = Astro.props;
     <div class="meta">
       <div>📢 { description }</div>
       <div>
-        🗓️ Last updated:
-        <time datetime={updated}>{updated.split("T")[0] || ""}</time>
+        🗓️ Last updated: <time datetime={updated}>{updated.split("T")[0] || ""}</time>
       </div>
     </div>
     <slot />
