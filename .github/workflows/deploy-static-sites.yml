@@ -16,7 +16,7 @@ concurrency:
 # Files are copied into the root of dist/ using their original file names.
 env:
   DEPLOY_FILES: |
-    visual-visualize-commercial-districts/음식점격자지도.html
+    visualize-commercial-districts/음식점격자지도.html
   INDEX_FILE: 음식점격자지도.html
 
 jobs:
