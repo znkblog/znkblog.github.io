@@ -1,0 +1,89 @@
+name: Deploy Static Sites
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+# Files to publish. Add another path or glob on a new line when needed.
+# Files are copied into the root of dist/ using their original file names.
+env:
+  DEPLOY_FILES: |
+    visual-*/음식점격자지도.html
+  INDEX_FILE: 음식점격자지도.html
+
+jobs:
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Prepare static site
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          rm -rf dist
+          mkdir -p dist
+
+          copied=0
+          while IFS= read -r pattern; do
+            [[ -z "$pattern" || "$pattern" == \#* ]] && continue
+
+            matches=()
+            while IFS= read -r match; do
+              matches+=("$match")
+            done < <(compgen -G "$pattern" || true)
+
+            if (( ${#matches[@]} == 0 )); then
+              echo "::error::No file matched: $pattern"
+              exit 1
+            fi
+
+            for source_file in "${matches[@]}"; do
+              file_name="$(basename "$source_file")"
+              if [[ -e "dist/$file_name" ]]; then
+                echo "::error::Duplicate output file name: $file_name"
+                exit 1
+              fi
+              cp "$source_file" "dist/$file_name"
+              copied=$((copied + 1))
+            done
+          done <<< "$DEPLOY_FILES"
+
+          if (( copied == 0 )); then
+            echo "::error::DEPLOY_FILES is empty"
+            exit 1
+          fi
+
+          if [[ ! -f "dist/$INDEX_FILE" ]]; then
+            echo "::error::INDEX_FILE was not included in DEPLOY_FILES: $INDEX_FILE"
+            exit 1
+          fi
+
+          cp "dist/$INDEX_FILE" dist/index.html
+          touch dist/.nojekyll
+
+      - name: Configure GitHub Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
