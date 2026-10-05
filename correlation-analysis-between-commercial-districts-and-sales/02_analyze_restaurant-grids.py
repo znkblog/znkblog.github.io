@@ -18,7 +18,7 @@ ACTIVE_STATUS = "영업/정상"
 OUTPUT_COLUMNS = (
     "격자ID",
     "격자좌상단좌표정보(X)",
-    "격자좌하단좌표정보(Y)",
+    "격자좌상단좌표정보(Y)",
     "음식점카운팅",
 )
 
@@ -112,7 +112,7 @@ def analyze(source: Path, output: Path) -> tuple[int, int, int]:
                     counts[(row, column)] += 1
 
                 for row in range(rows):
-                    bottom_y = top_y - (row + 1) * GRID_SIZE
+                    top_left_y = top_y - row * GRID_SIZE
                     for column in range(columns):
                         top_left_x = left_x + column * GRID_SIZE
                         grid_id = f"G{row * columns + column + 1:06d}"
@@ -120,7 +120,7 @@ def analyze(source: Path, output: Path) -> tuple[int, int, int]:
                             (
                                 grid_id,
                                 top_left_x,
-                                bottom_y,
+                                top_left_y,
                                 counts[(row, column)],
                             )
                         )
