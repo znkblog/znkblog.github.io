@@ -1,0 +1,99 @@
+---
+import "modern-normalize/modern-normalize.css";
+import Header from "./Header.astro";
+import Menu from "./Menu.astro";
+import Footer from "./Footer.astro";
+
+
+interface Props {
+  title: string;
+  description: string;
+  canonicalURL?: string | URL;
+  siteName?: string;
+  ogImage?: string | URL;
+  ogImageAlt?: string;
+  type?: "website" | "article";
+  lang?: string;
+  locale?: string;
+  noindex?: boolean;
+  jsonLd?: Record<string, unknown> | Record<string, unknown>[];
+}
+
+const {
+  title,
+  description,
+  canonicalURL,
+  siteName,
+  ogImage,
+  ogImageAlt,
+  type = "website",
+  lang = "ko",
+  locale = "ko_KR",
+  noindex = false,
+  jsonLd,
+} = Astro.props;
+
+const canonicalHref = canonicalURL?.toString();
+const ogImageURL = ogImage?.toString();
+const serializedJsonLd = jsonLd
+  ? JSON.stringify(jsonLd).replace(/</g, "\\u003c")
+  : undefined;
+---
+
+<!doctype html>
+<html lang={lang}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="description" content={description} />
+    <meta
+      name="robots"
+      content={noindex ? "noindex, nofollow" : "index, follow, max-image-preview:large"}
+    />
+    <title>{title}</title>
+
+    {canonicalHref && <link rel="canonical" href={canonicalHref} />}
+
+    <meta property="og:type" content={type} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:locale" content={locale} />
+    {canonicalHref && <meta property="og:url" content={canonicalHref} />}
+    {siteName && <meta property="og:site_name" content={siteName} />}
+    {ogImageURL && <meta property="og:image" content={ogImageURL} />}
+    {ogImageAlt && <meta property="og:image:alt" content={ogImageAlt} />}
+
+    <meta
+      name="twitter:card"
+      content={ogImageURL ? "summary_large_image" : "summary"}
+    />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    {ogImageURL && <meta name="twitter:image" content={ogImageURL} />}
+    {ogImageAlt && <meta name="twitter:image:alt" content={ogImageAlt} />}
+
+    {serializedJsonLd && (
+      <script type="application/ld+json" set:html={serializedJsonLd} />
+    )}
+    <slot name="head" />
+  </head>
+  <body>
+    <div id="layout">
+        <div id="sidebar">
+            <div id="header-wrapper">
+                <Header />
+            </div>
+            <div id="menu-wrapper">
+                <Menu />
+            </div>
+            <div id="footer-wrapper">
+                <Footer />
+            </div>
+        </div>
+        <div id="mainview">
+
+        </div>
+    </div>
+    <slot />
+  </body>
+</html>
