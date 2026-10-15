@@ -1,0 +1,69 @@
+---
+import { existsSync } from "node:fs";
+import { resolve } from "node:path";
+import { getCollection, render } from "astro:content";
+import Base from "../../components/Base.astro";
+import menu from "../../data/menu.json";
+
+export async function getStaticPaths() {
+  const posts = await getCollection("posts");
+
+  function getPostOrder(filePath: string | undefined) {
+    const filename = filePath?.split(/[\\/]/).at(-1);
+    const match = filename?.match(/^\[(\d+)\]/);
+
+    if (!match) {
+      throw new Error(`Unable to read post order from "${filePath ?? "unknown file"}".`);
+    }
+
+    return Number(match[1]);
+  }
+
+  return menu.flatMap(({ category, title, order }) => {
+    if (!/^[\w-]+$/.test(category)) {
+      throw new Error(`Invalid category "${category}" in src/data/menu.json.`);
+    }
+
+    if (order !== "asc" && order !== "desc") {
+      throw new Error(`Invalid order "${order}" for category "${category}".`);
+    }
+
+    if (!existsSync(resolve(process.cwd(), "content", category))) {
+      return [];
+    }
+
+    const categoryPosts = posts
+      .filter((post) => post.id.startsWith(`${category}/`))
+      .sort((a, b) => getPostOrder(a.filePath) - getPostOrder(b.filePath));
+
+    if (order === "desc") {
+      categoryPosts.reverse();
+    }
+
+    return [{ params: { slug: category }, props: { title, posts: categoryPosts } }];
+  });
+}
+
+const { title, posts: categoryPosts } = Astro.props;
+---
+
+<Base>
+  <main>
+    <h1>{title}</h1>
+    {
+      await Promise.all(
+        categoryPosts.map(async (post) => {
+          const { Content } = await render(post);
+
+          return (
+            <article>
+              <h2>{post.data.title}</h2>
+              <p>{post.data.description}</p>
+              <Content />
+            </article>
+          );
+        }),
+      )
+    }
+  </main>
+</Base>

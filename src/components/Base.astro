@@ -1,99 +1,172 @@
 ---
-import "modern-normalize/modern-normalize.css";
-import Header from "./Header.astro";
-import Menu from "./Menu.astro";
-import Footer from "./Footer.astro";
-
-
-interface Props {
-  title: string;
-  description: string;
-  canonicalURL?: string | URL;
-  siteName?: string;
-  ogImage?: string | URL;
-  ogImageAlt?: string;
-  type?: "website" | "article";
-  lang?: string;
-  locale?: string;
-  noindex?: boolean;
-  jsonLd?: Record<string, unknown> | Record<string, unknown>[];
-}
-
-const {
-  title,
-  description,
-  canonicalURL,
-  siteName,
-  ogImage,
-  ogImageAlt,
-  type = "website",
-  lang = "ko",
-  locale = "ko_KR",
-  noindex = false,
-  jsonLd,
-} = Astro.props;
-
-const canonicalHref = canonicalURL?.toString();
-const ogImageURL = ogImage?.toString();
-const serializedJsonLd = jsonLd
-  ? JSON.stringify(jsonLd).replace(/</g, "\\u003c")
-  : undefined;
+import "reset-css/reset.css";
 ---
 
 <!doctype html>
-<html lang={lang}>
+<html lang="ko">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width" />
-    <meta name="description" content={description} />
-    <meta
-      name="robots"
-      content={noindex ? "noindex, nofollow" : "index, follow, max-image-preview:large"}
-    />
-    <title>{title}</title>
-
-    {canonicalHref && <link rel="canonical" href={canonicalHref} />}
-
-    <meta property="og:type" content={type} />
-    <meta property="og:title" content={title} />
-    <meta property="og:description" content={description} />
-    <meta property="og:locale" content={locale} />
-    {canonicalHref && <meta property="og:url" content={canonicalHref} />}
-    {siteName && <meta property="og:site_name" content={siteName} />}
-    {ogImageURL && <meta property="og:image" content={ogImageURL} />}
-    {ogImageAlt && <meta property="og:image:alt" content={ogImageAlt} />}
-
-    <meta
-      name="twitter:card"
-      content={ogImageURL ? "summary_large_image" : "summary"}
-    />
-    <meta name="twitter:title" content={title} />
-    <meta name="twitter:description" content={description} />
-    {ogImageURL && <meta name="twitter:image" content={ogImageURL} />}
-    {ogImageAlt && <meta name="twitter:image:alt" content={ogImageAlt} />}
-
-    {serializedJsonLd && (
-      <script type="application/ld+json" set:html={serializedJsonLd} />
-    )}
     <slot name="head" />
   </head>
   <body>
     <div id="layout">
+      <div id="container">
         <div id="sidebar">
-            <div id="header-wrapper">
-                <Header />
-            </div>
-            <div id="menu-wrapper">
-                <Menu />
-            </div>
-            <div id="footer-wrapper">
-                <Footer />
-            </div>
+          <div id="header-wrapper">
+              <header>헤더</header>
+          </div>
+          <div id="menu-wrapper">
+              <menu>메뉴</menu>
+          </div>
+          <div id="footer-wrapper">
+              <footer>
+                <div>This Website is designed by ZNK,</div>
+                <div>Generated with Astro,</div>
+                <div>and Powered by GitHub Pages.</div>
+              </footer>
+          </div>
         </div>
+        <button id="sidebar-toggle" type="button" aria-controls="sidebar" aria-expanded="false" aria-label="메뉴 열기">
+          <span class="fluent-color--add-circle-16" aria-hidden="true"></span>
+        </button>
         <div id="mainview">
-
+          <slot />
         </div>
+      </div>
     </div>
-    <slot />
   </body>
 </html>
+
+<style>
+  body {
+    line-height: 1.5;
+  }
+  .fluent-color--add-circle-16 {
+    display: inline-block;
+    width: 1em;
+    height: 1em;
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cg fill='none'%3E%3Cpath fill='url(%23SVGzq4yudsC)' d='M2 8a6 6 0 1 1 12 0A6 6 0 0 1 2 8'/%3E%3Cpath fill='url(%23SVGn31uPdMB)' d='M8 5a.5.5 0 0 0-.5.5v2h-2a.5.5 0 0 0 0 1h2v2a.5.5 0 0 0 1 0v-2h2a.5.5 0 0 0 0-1h-2v-2A.5.5 0 0 0 8 5'/%3E%3Cdefs%3E%3ClinearGradient id='SVGzq4yudsC' x1='2.429' x2='10.71' y1='4.25' y2='12.854' gradientUnits='userSpaceOnUse'%3E%3Cstop stop-color='%2352d17c'/%3E%3Cstop offset='1' stop-color='%2322918b'/%3E%3C/linearGradient%3E%3ClinearGradient id='SVGn31uPdMB' x1='6.125' x2='7.966' y1='5.612' y2='12.111' gradientUnits='userSpaceOnUse'%3E%3Cstop stop-color='%23fff'/%3E%3Cstop offset='1' stop-color='%23e3ffd9'/%3E%3C/linearGradient%3E%3C/defs%3E%3C/g%3E%3C/svg%3E");
+  }
+
+  div,
+  article,
+  aside,
+  footer,
+  header,
+  main,
+  nav,
+  section,
+  menu {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  div::-webkit-scrollbar,
+  article::-webkit-scrollbar,
+  aside::-webkit-scrollbar,
+  footer::-webkit-scrollbar,
+  header::-webkit-scrollbar,
+  main::-webkit-scrollbar,
+  nav::-webkit-scrollbar,
+  section::-webkit-scrollbar,
+  menu::-webkit-scrollbar {
+    display: none;
+  }
+
+  #layout {
+    position: fixed; top: 0; right: 0; bottom: 0; left: 0;
+    background: #eee;
+  }
+  #container {
+    position: relative; height: 100%; width: 100%; max-width: 1200px; margin: 0 auto;
+    background: #ddd;
+  }
+  #sidebar {
+    position: absolute; top: 0; left: 0; bottom: 0; width: 320px; overflow-y: hidden;
+    box-sizing: border-box;
+    padding: 4px;
+    background: #bbb;
+    z-index: 1;
+  }
+  #sidebar-toggle {
+    display: none;
+  }
+  #mainview {
+    position: absolute; top: 0; left: 320px; bottom: 0; width: calc(100% - 320px); overflow-y: hidden;
+    background: #aaa;
+  }
+
+  #sidebar {
+    display: flex; flex-direction: column; gap: 4px;
+  }
+  #menu-wrapper {
+    display: flex; flex: 1 1 auto; min-height: 0;
+  }
+  #sidebar header {
+    flex: 0 0 auto;
+    background: #999;
+  }
+  #sidebar menu {
+    flex: 1 1 auto; min-height: 0; overflow-y: scroll;
+    background: #888;
+  }
+  #sidebar footer {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    column-gap: 0.5em;
+    flex: 0 0 auto;
+    background: #777;
+  }
+
+  @media (max-width: 1199px) {
+    #sidebar {
+      left: -320px;
+      transition: left 0.3s ease;
+    }
+    #container.menu-open #sidebar {
+      left: 0;
+    }
+    #sidebar-toggle {
+      position: absolute; top: 8px; right: 8px; z-index: 2;
+      display: block;
+      width: 40px;
+      height: 40px;
+      padding: 0;
+      border: 0;
+      background: transparent;
+      cursor: pointer;
+    }
+    #sidebar-toggle span {
+      display: block;
+      width: 100%;
+      height: 100%;
+      transition: transform 0.4s ease;
+    }
+    #container.menu-open #sidebar-toggle span {
+      transform: rotate(45deg);
+    }
+    #mainview {
+      left: 0;
+      width: 100%;
+    }
+  }
+</style>
+
+<script>
+  const container = document.querySelector<HTMLElement>("#container");
+  const sidebarToggle = document.querySelector<HTMLButtonElement>("#sidebar-toggle");
+  const menuIcon = sidebarToggle?.querySelector("span");
+
+  if (!container || !sidebarToggle || !menuIcon) {
+    throw new Error("Mobile menu elements are missing.");
+  }
+
+  sidebarToggle.addEventListener("click", () => {
+    const isOpen = container.classList.toggle("menu-open");
+    sidebarToggle.setAttribute("aria-expanded", String(isOpen));
+    sidebarToggle.setAttribute("aria-label", isOpen ? "메뉴 닫기" : "메뉴 열기");
+  });
+</script>
