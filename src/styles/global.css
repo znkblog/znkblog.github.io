@@ -149,6 +149,7 @@ menu::-webkit-scrollbar {
   min-height: 100%;
   margin: 0 auto;
   padding: clamp(28px, 5vw, 68px);
+  background: #fffdf8;
 }
 
 #menu-wrapper {

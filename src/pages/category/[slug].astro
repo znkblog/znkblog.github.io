@@ -2,7 +2,7 @@
 import { existsSync } from "node:fs";
 import { resolve } from "node:path";
 import { getCollection } from "astro:content";
-import Base from "../../components/Base.astro";
+import Base from "../../layouts/Base.astro";
 import menu from "../../data/menu.json";
 
 export async function getStaticPaths() {
@@ -84,9 +84,9 @@ const structuredData = {
       return (
         <ul>
           <li class="post-items">
-            <div class="post-title"><span class="icon document-16"></span> <a href={`/post/${postSlug}`}>{post.data.title}</a></div>
-            <div class="post-description"><span class="icon megaphone-16"></span> {post.data.description}</div>
-            <div class="post-updated"><span class="icon calendar-16"></span> updated: {post.data.updated}</div>
+            <div class="post-title"><a href={`/post/${postSlug}`}>{post.data.title}</a></div>
+            <div class="post-description">{post.data.description}</div>
+            <div class="post-updated">{post.data.updated}</div>
           </li>
         </ul>
       );

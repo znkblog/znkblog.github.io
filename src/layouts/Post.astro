@@ -1,5 +1,5 @@
 ---
-import Base from "../components/Base.astro";
+import Base from "./Base.astro";
 
 interface PageMetadata {
   title?: string;
@@ -32,12 +32,12 @@ const { frontmatter = {} } = Astro.props;
 
 <style is:global>
   article {
-    max-width: 740px;
+    /* max-width: 740px;
     margin: 0 auto;
     padding: clamp(26px, 5vw, 54px);
     border: 1px solid #e8e0d4;
     background: #fffdf8;
-    box-shadow: 0 12px 40px rgb(54 44 30 / 7%);
+    box-shadow: 0 12px 40px rgb(54 44 30 / 7%); */    
   }
 
   article > h1:first-child {
