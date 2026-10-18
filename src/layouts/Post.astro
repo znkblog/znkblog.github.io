@@ -138,12 +138,26 @@ const { frontmatter = {} } = Astro.props;
   article a {
     text-decoration-thickness: 1px;
     text-underline-offset: 3px;
+    font-weight: 700;
+  }
+
+  article b,
+  article strong {
+    font-weight: 700;
+  }
+
+  article em,
+  article i {
+    font-style: italic;
   }
 
   article img,
   article svg {
     max-width: 100%;
     height: auto;
+    display: block;
+    height: auto;
+    margin: 0 auto;
   }
 
   article pre {

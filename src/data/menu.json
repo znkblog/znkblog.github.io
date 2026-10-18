@@ -1,4 +1,3 @@
 [
-  { "category": "cat1", "title": "카테고리1", "order": "asc" },
-  { "category": "cat2", "title": "카테고리2", "order": "desc" }
+  { "category": "test", "title": "테스트", "order": "asc" }
 ]

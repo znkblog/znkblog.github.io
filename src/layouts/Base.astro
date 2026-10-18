@@ -102,16 +102,19 @@ const structuredData = {
       <div id="container">
         <div id="sidebar">
           <div id="header-wrapper">
-            <header>헤더</header>
+            <header>찌니꼬 블로그</header>
           </div>
           <div id="adsense-wrapper">
             <div class="adsense-placeholder">AdSense 광고 영역<br />300 × 250</div>
           </div>
           <div id="menu-wrapper">
               <menu>
-                {menuItems.map((item) => (
-                  <li><a href={`/category/${item.category}`}>{item.title}</a></li>
-                ))}
+                <ul>
+                  <li><a href="/">홈</a></li>
+                  {menuItems.map((item) => (
+                    <li><a href={`/category/${item.category}`}>{item.title}</a></li>
+                  ))}
+                </ul>
               </menu>
           </div>
           <div id="footer-wrapper">
