@@ -1,14 +1,6 @@
 @font-face {
   font-family: "NanumSquareRound";
   font-style: normal;
-  font-weight: 300;
-  font-display: swap;
-  src: url("/fonts/nanum-square-round/NanumSquareRoundL.woff2") format("woff2");
-}
-
-@font-face {
-  font-family: "NanumSquareRound";
-  font-style: normal;
   font-weight: 400;
   font-display: swap;
   src: url("/fonts/nanum-square-round/NanumSquareRoundR.woff2") format("woff2");
@@ -20,14 +12,6 @@
   font-weight: 700;
   font-display: swap;
   src: url("/fonts/nanum-square-round/NanumSquareRoundB.woff2") format("woff2");
-}
-
-@font-face {
-  font-family: "NanumSquareRound";
-  font-style: normal;
-  font-weight: 800;
-  font-display: swap;
-  src: url("/fonts/nanum-square-round/NanumSquareRoundEB.woff2") format("woff2");
 }
 
 @font-face {
@@ -53,10 +37,10 @@ body {
   line-height: 1.5;
 }
 
-body pre,
-body code,
-body kbd,
-body samp {
+pre,
+code,
+kbd,
+samp {
   font-family: "D2Coding", monospace;
 }
 
@@ -194,6 +178,20 @@ menu::-webkit-scrollbar {
   line-height: 1.6;
   text-align: center;
 }
+.adsense-placeholder2 {
+  display: flex;
+  width: 100%;
+  height: 250px;
+  align-items: center;
+  justify-content: center;
+  border: 1px dashed #a895ba;
+  box-sizing: border-box;
+  color: #cfc3dc;
+  background: #352447;
+  font-size: 0.85rem;
+  line-height: 1.6;
+  text-align: center;
+}
 
 #sidebar header {
   flex: 0 0 auto;
@@ -256,6 +254,7 @@ a:hover {
   #sidebar {
     left: -320px;
     transition: left 0.3s ease;
+    box-shadow: 8px 0 24px rgb(24 39 43 / 18%);
   }
 
   #container.menu-open #sidebar {
@@ -296,9 +295,5 @@ a:hover {
 
   #mainview main {
     padding: 72px 22px 36px;
-  }
-
-  #sidebar {
-    box-shadow: 8px 0 24px rgb(24 39 43 / 18%);
   }
 }

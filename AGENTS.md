@@ -10,6 +10,7 @@
 - 별도의 CSS 프레임워크는 사용하지 않는다.
 - CSS 초기화에는 npm 패키지 `reset-css`를 사용한다.
 - 포스트는 Astro 콘텐츠 컬렉션과 내장 `glob()` 로더로 불러온다.
+- Markdown 처리는 `astro.config.mjs`의 `@astrojs/markdown-remark` 프로세서와 rehype 플러그인에서 관리한다.
 - 개발 서버는 `npm run dev`, 정적 빌드는 `npm run build`, 빌드 결과 미리보기는 `npm run preview`로 실행한다.
 
 # 사이트 구조와 라우팅
@@ -36,6 +37,7 @@
 - `updated`는 `yyyy-mm-dd` 형식의 문자열이다.
 - `tags`는 `["태그1", "태그2"]` 형식의 인라인 배열이다.
 - `src/content.config.ts`는 프로젝트 루트의 `content/`를 읽고 포스트 ID를 `<category>/<slug>` 형식으로 만든다.
+- Markdown 본문에 단독으로 작성한 `<!--adsense-->`는 `astro.config.mjs`의 rehype 플러그인에서 실제 HTML 요소로 바꾼다. 치환 결과를 `text` 노드로 만들면 태그가 글자로 표시되므로 HAST 요소 노드로 생성한다.
 
 # 디자인 규칙
 
@@ -67,4 +69,5 @@
 - 모호하거나 여러 선택지가 있는 요구사항은 구현 전에 확인한다.
 - SEO/GEO 메타데이터와 JSON-LD는 명시적으로 요청된 경우에만 추가한다.
 - 변경 후에는 관련 빌드나 검증 명령으로 결과를 확인한다.
+- Markdown 프로세서 설정을 변경한 뒤 개발 서버에 이전 콘텐츠 결과가 남아 있으면 서버를 재시작하고 `npm run dev -- --force`로 콘텐츠 저장소를 다시 만든다. 마커 치환은 빌드뿐 아니라 브라우저 DOM에서도 실제 요소로 생성되는지 확인한다.
 - 이 문서와 코드 주석은 간결한 한국어 평서문으로 작성한다.
