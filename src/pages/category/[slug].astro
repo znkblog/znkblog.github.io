@@ -1,7 +1,7 @@
 ---
 import { existsSync } from "node:fs";
 import { resolve } from "node:path";
-import { getCollection, render } from "astro:content";
+import { getCollection } from "astro:content";
 import Base from "../../components/Base.astro";
 import menu from "../../data/menu.json";
 
@@ -48,22 +48,20 @@ const { title, posts: categoryPosts } = Astro.props;
 ---
 
 <Base>
-  <main>
+  <nav>
     <h1>{title}</h1>
-    {
-      await Promise.all(
-        categoryPosts.map(async (post) => {
-          const { Content } = await render(post);
+    {categoryPosts.map((post) => {
+      const postSlug = post.id.slice(post.id.indexOf("/") + 1);
 
-          return (
-            <article>
-              <h2>{post.data.title}</h2>
-              <p>{post.data.description}</p>
-              <Content />
-            </article>
-          );
-        }),
-      )
-    }
-  </main>
+      return (
+        <ul>
+          <li class="post-items">
+            <div class="post-title"><span class="icon document-16"></span> <a href={`/post/${postSlug}`}>{post.data.title}</a></div>
+            <div class="post-description"><span class="icon megaphone-16"></span> {post.data.description}</div>
+            <div class="post-updated"><span class="icon calendar-16"></span> updated: {post.data.updated}</div>
+          </li>
+        </ul>
+      );
+    })}
+  </nav>
 </Base>
