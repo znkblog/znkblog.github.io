@@ -2,13 +2,95 @@
 import "reset-css/reset.css";
 import "../styles/global.css";
 import menuItems from "../data/menu.json";
+
+interface SeoProps {
+  title?: string;
+  description?: string;
+  canonicalURL?: string | URL;
+  siteName?: string;
+  ogImage?: string | URL;
+  ogImageAlt?: string;
+  type?: "website" | "article";
+  lang?: string;
+  locale?: string;
+  noindex?: boolean;
+  structuredData?: Record<string, unknown>;
+}
+
+interface Props {
+  props?: SeoProps;
+}
+
+const { props = {} } = Astro.props;
+const siteName = props.siteName ?? "찌니코 블로그";
+const title = props.title ?? siteName;
+const description =
+  props.description ?? "문과 출신 비전공자 찌니코의 IT 관심사항 블로그입니다.";
+const siteURL = Astro.site ?? new URL("https://znkblog.github.io");
+const canonicalURL = new URL(props.canonicalURL ?? Astro.url.pathname, siteURL);
+const ogImage = props.ogImage ? new URL(props.ogImage, siteURL) : undefined;
+const lang = props.lang ?? "ko";
+const locale = props.locale ?? "ko_KR";
+const robots = props.noindex
+  ? "noindex, nofollow"
+  : "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1";
+const structuredData = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebSite",
+      "@id": new URL("#website", siteURL).href,
+      url: siteURL.href,
+      name: siteName,
+      description,
+      inLanguage: lang,
+    },
+    {
+      "@type": "Organization",
+      "@id": new URL("#organization", siteURL).href,
+      name: siteName,
+      url: siteURL.href,
+    },
+    {
+      "@type": "WebPage",
+      "@id": `${canonicalURL.href}#webpage`,
+      url: canonicalURL.href,
+      name: title,
+      description,
+      inLanguage: lang,
+      isPartOf: { "@id": new URL("#website", siteURL).href },
+    },
+    ...(props.structuredData ? [props.structuredData] : []),
+  ],
+};
 ---
 
 <!doctype html>
-<html lang="ko">
+<html lang={lang}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width" />
+    <title>{title === siteName ? title : `${title} | ${siteName}`}</title>
+    <meta name="description" content={description} />
+    <meta name="robots" content={robots} />
+    <meta name="googlebot" content={robots} />
+    <link rel="canonical" href={canonicalURL.href} />
+    <meta property="og:type" content={props.type ?? "website"} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalURL.href} />
+    <meta property="og:site_name" content={siteName} />
+    <meta property="og:locale" content={locale} />
+    {ogImage && <meta property="og:image" content={ogImage.href} />}
+    {ogImage && <meta property="og:image:alt" content={props.ogImageAlt ?? title} />}
+    <meta name="twitter:card" content={ogImage ? "summary_large_image" : "summary"} />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    {ogImage && <meta name="twitter:image" content={ogImage.href} />}
+    <script
+      type="application/ld+json"
+      set:html={JSON.stringify(structuredData).replace(/</g, "\\u003c")}
+    />
     <slot name="head" />
   </head>
   <body>

@@ -45,9 +45,37 @@ export async function getStaticPaths() {
 }
 
 const { title, posts: categoryPosts } = Astro.props;
+const siteURL = Astro.site ?? new URL("https://znkblog.github.io");
+const description = `${title} 카테고리의 포스트 목록입니다.`;
+const canonicalURL = new URL(Astro.url.pathname, siteURL);
+const structuredData = {
+  "@type": "CollectionPage",
+  "@id": `${canonicalURL.href}#collection`,
+  url: canonicalURL.href,
+  name: title,
+  description,
+  isPartOf: { "@id": new URL("#website", siteURL).href },
+  mainEntity: {
+    "@type": "ItemList",
+    itemListElement: categoryPosts.map((post, index) => {
+      const postSlug = post.id.slice(post.id.indexOf("/") + 1);
+
+      return {
+        "@type": "ListItem",
+        position: index + 1,
+        item: {
+          "@type": "BlogPosting",
+          name: post.data.title,
+          description: post.data.description,
+          url: new URL(`/post/${encodeURIComponent(postSlug)}`, siteURL).href,
+        },
+      };
+    }),
+  },
+};
 ---
 
-<Base>
+<Base props={{ title, description, canonicalURL, structuredData }}>
   <nav>
     <h1>{title}</h1>
     {categoryPosts.map((post) => {
@@ -65,3 +93,84 @@ const { title, posts: categoryPosts } = Astro.props;
     })}
   </nav>
 </Base>
+
+<style>
+  nav {
+    max-width: 740px;
+    margin: 0 auto;
+  }
+
+  nav > h1 {
+    margin: 0 0 30px;
+    color: #20343a;
+    font-family: Georgia, "Noto Serif KR", serif;
+    font-size: clamp(2rem, 5vw, 3rem);
+    font-weight: 700;
+    letter-spacing: -0.04em;
+  }
+
+  nav ul {
+    margin: 0 0 16px;
+    padding: 0;
+    list-style: none;
+  }
+
+  .post-items {
+    padding: 22px 24px;
+    border: 1px solid #e5ded2;
+    border-radius: 12px;
+    background: #fffdf8;
+    box-shadow: 0 5px 18px rgb(54 44 30 / 5%);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .post-items:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 9px 24px rgb(54 44 30 / 9%);
+  }
+
+  .post-title {
+    margin-bottom: 9px;
+    font-family: Georgia, "Noto Serif KR", serif;
+    font-size: 1.3rem;
+    font-weight: 700;
+  }
+
+  .post-title a {
+    color: #20343a;
+    text-decoration: none;
+  }
+
+  .post-title a:hover,
+  .post-title a:focus-visible {
+    color: #a04f32;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .post-description {
+    color: #586568;
+  }
+
+  .post-updated {
+    margin-top: 14px;
+    color: #85877f;
+    font-size: 0.82rem;
+  }
+
+  .post-title .icon,
+  .post-description .icon,
+  .post-updated .icon {
+    margin-right: 4px;
+  }
+
+  @media (max-width: 600px) {
+    .post-items {
+      padding: 18px;
+    }
+
+    .post-title {
+      font-size: 1.15rem;
+    }
+  }
+</style>

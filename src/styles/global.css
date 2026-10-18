@@ -1,4 +1,7 @@
 body {
+  color: #263238;
+  background: #f4f1eb;
+  font-family: "Segoe UI", "Noto Sans KR", sans-serif;
   line-height: 1.5;
 }
 
@@ -57,7 +60,7 @@ menu::-webkit-scrollbar {
   right: 0;
   bottom: 0;
   left: 0;
-  background: #eee;
+  background: #e8e3d9;
 }
 
 #container {
@@ -66,7 +69,7 @@ menu::-webkit-scrollbar {
   width: 100%;
   max-width: 1200px;
   margin: 0 auto;
-  background: #ddd;
+  background: #f4f1eb;
 }
 
 #sidebar {
@@ -78,7 +81,7 @@ menu::-webkit-scrollbar {
   overflow-y: hidden;
   box-sizing: border-box;
   padding: 4px;
-  background: #bbb;
+  background: #291d39;
   z-index: 1;
   display: flex;
   flex-direction: column;
@@ -95,8 +98,18 @@ menu::-webkit-scrollbar {
   left: 320px;
   bottom: 0;
   width: calc(100% - 320px);
-  overflow-y: hidden;
-  background: #aaa;
+  overflow-x: hidden;
+  overflow-y: auto;
+  background: #f4f1eb;
+}
+
+#mainview main {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 900px;
+  min-height: 100%;
+  margin: 0 auto;
+  padding: clamp(28px, 5vw, 68px);
 }
 
 #menu-wrapper {
@@ -107,14 +120,42 @@ menu::-webkit-scrollbar {
 
 #sidebar header {
   flex: 0 0 auto;
-  background: #999;
+  padding: 22px 20px;
+  border-radius: 8px;
+  color: #fffaf0;
+  background: #49345f;
+  font-size: 1.2rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
 }
 
 #sidebar menu {
   flex: 1 1 auto;
   min-height: 0;
   overflow-y: scroll;
-  background: #888;
+  margin: 0;
+  padding: 16px 10px;
+  border-radius: 8px;
+  background: #352447;
+}
+
+#sidebar menu li {
+  list-style: none;
+}
+
+#sidebar menu a {
+  display: block;
+  padding: 11px 13px;
+  border-radius: 6px;
+  color: #eee7f4;
+  text-decoration: none;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+#sidebar menu a:hover,
+#sidebar menu a:focus-visible {
+  color: #fff;
+  background: #58416f;
 }
 
 #sidebar footer {
@@ -123,7 +164,19 @@ menu::-webkit-scrollbar {
   justify-content: center;
   column-gap: 0.5em;
   flex: 0 0 auto;
-  background: #777;
+  padding: 12px 8px;
+  border-radius: 8px;
+  color: #cfc3dc;
+  background: #352447;
+  font-size: 0.75rem;
+}
+
+a {
+  color: #a04f32;
+}
+
+a:hover {
+  color: #713b2a;
 }
 
 @media (max-width: 1199px) {
@@ -146,7 +199,9 @@ menu::-webkit-scrollbar {
     height: 40px;
     padding: 0;
     border: 0;
-    background: transparent;
+    border-radius: 50%;
+    background: #fffaf0;
+    box-shadow: 0 3px 12px rgb(32 52 58 / 18%);
     cursor: pointer;
   }
 
@@ -164,5 +219,13 @@ menu::-webkit-scrollbar {
   #mainview {
     left: 0;
     width: 100%;
+  }
+
+  #mainview main {
+    padding: 72px 22px 36px;
+  }
+
+  #sidebar {
+    box-shadow: 8px 0 24px rgb(24 39 43 / 18%);
   }
 }
