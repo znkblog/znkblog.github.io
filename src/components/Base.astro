@@ -28,7 +28,7 @@ const description =
   props.description ?? "문과 출신 비전공자 찌니코의 IT 관심사항 블로그입니다.";
 const siteURL = Astro.site ?? new URL("https://znkblog.github.io");
 const canonicalURL = new URL(props.canonicalURL ?? Astro.url.pathname, siteURL);
-const ogImage = props.ogImage ? new URL(props.ogImage, siteURL) : undefined;
+const ogImage = new URL(props.ogImage ?? "/og-image.png", siteURL);
 const lang = props.lang ?? "ko";
 const locale = props.locale ?? "ko_KR";
 const robots = props.noindex
@@ -75,18 +75,22 @@ const structuredData = {
     <meta name="robots" content={robots} />
     <meta name="googlebot" content={robots} />
     <link rel="canonical" href={canonicalURL.href} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <meta property="og:type" content={props.type ?? "website"} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonicalURL.href} />
     <meta property="og:site_name" content={siteName} />
     <meta property="og:locale" content={locale} />
-    {ogImage && <meta property="og:image" content={ogImage.href} />}
-    {ogImage && <meta property="og:image:alt" content={props.ogImageAlt ?? title} />}
-    <meta name="twitter:card" content={ogImage ? "summary_large_image" : "summary"} />
+    <meta property="og:image" content={ogImage.href} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={props.ogImageAlt ?? `${siteName} 공유 이미지`} />
+    <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
-    {ogImage && <meta name="twitter:image" content={ogImage.href} />}
+    <meta name="twitter:image" content={ogImage.href} />
     <script
       type="application/ld+json"
       set:html={JSON.stringify(structuredData).replace(/</g, "\\u003c")}

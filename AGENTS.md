@@ -25,6 +25,8 @@
 - 카테고리 목록의 포스트 제목 링크는 해당 `/post/<slug>` 페이지를 가리킨다.
 - `astro.config.mjs`의 `site`는 `https://znkblog.github.io`로 설정한다. canonical URL, 구조화 데이터, robots 및 sitemap의 도메인은 이 사이트 주소와 일치시킨다.
 - `src/pages/sitemap.xml.ts`는 홈, 실제 생성되는 카테고리 페이지, 메뉴에 등록된 카테고리의 포스트 페이지 URL을 sitemap으로 만든다. `public/robots.txt`는 크롤링을 허용하고 sitemap URL을 알린다.
+- `Base.astro`는 `public/og-image.png`를 기본 Open Graph/Twitter 공유 이미지로 사용하고, `public/favicon.svg`와 `public/apple-touch-icon.png`를 사이트 아이콘으로 연결한다.
+- `public/llms.txt`는 사이트와 주요 글을 생성형 검색 도구에 안내한다. 글이나 카테고리를 추가·변경할 때 해당 링크와 설명도 함께 갱신한다.
 
 # 콘텐츠 규칙
 
