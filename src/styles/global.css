@@ -1,8 +1,63 @@
+@font-face {
+  font-family: "NanumSquareRound";
+  font-style: normal;
+  font-weight: 300;
+  font-display: swap;
+  src: url("/fonts/nanum-square-round/NanumSquareRoundL.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "NanumSquareRound";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/nanum-square-round/NanumSquareRoundR.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "NanumSquareRound";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("/fonts/nanum-square-round/NanumSquareRoundB.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "NanumSquareRound";
+  font-style: normal;
+  font-weight: 800;
+  font-display: swap;
+  src: url("/fonts/nanum-square-round/NanumSquareRoundEB.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "D2Coding";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/d2coding/D2Coding-Regular.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "D2Coding";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("/fonts/d2coding/D2Coding-Bold.woff2") format("woff2");
+}
+
 body {
   color: #263238;
   background: #f4f1eb;
-  font-family: "Segoe UI", "Noto Sans KR", sans-serif;
+  font-family: "NanumSquareRound", sans-serif;
   line-height: 1.5;
+}
+
+body pre,
+body code,
+body kbd,
+body samp {
+  font-family: "D2Coding", monospace;
 }
 
 .icon {
@@ -118,10 +173,31 @@ menu::-webkit-scrollbar {
   min-height: 0;
 }
 
+#adsense-wrapper {
+  display: flex;
+  flex: 0 0 258px;
+  align-items: center;
+  justify-content: center;
+}
+
+.adsense-placeholder {
+  display: flex;
+  width: 300px;
+  height: 250px;
+  align-items: center;
+  justify-content: center;
+  border: 1px dashed #a895ba;
+  box-sizing: border-box;
+  color: #cfc3dc;
+  background: #352447;
+  font-size: 0.85rem;
+  line-height: 1.6;
+  text-align: center;
+}
+
 #sidebar header {
   flex: 0 0 auto;
   padding: 22px 20px;
-  border-radius: 8px;
   color: #fffaf0;
   background: #49345f;
   font-size: 1.2rem;
@@ -135,7 +211,6 @@ menu::-webkit-scrollbar {
   overflow-y: scroll;
   margin: 0;
   padding: 16px 10px;
-  border-radius: 8px;
   background: #352447;
 }
 
@@ -146,7 +221,6 @@ menu::-webkit-scrollbar {
 #sidebar menu a {
   display: block;
   padding: 11px 13px;
-  border-radius: 6px;
   color: #eee7f4;
   text-decoration: none;
   transition: background-color 0.2s ease, color 0.2s ease;
@@ -165,7 +239,6 @@ menu::-webkit-scrollbar {
   column-gap: 0.5em;
   flex: 0 0 auto;
   padding: 12px 8px;
-  border-radius: 8px;
   color: #cfc3dc;
   background: #352447;
   font-size: 0.75rem;
@@ -199,9 +272,9 @@ a:hover {
     height: 40px;
     padding: 0;
     border: 0;
-    border-radius: 50%;
     background: #fffaf0;
     box-shadow: 0 3px 12px rgb(32 52 58 / 18%);
+    border-radius: 50%;
     cursor: pointer;
   }
 

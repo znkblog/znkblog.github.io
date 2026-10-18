@@ -14,12 +14,14 @@
 
 # 사이트 구조와 라우팅
 
-- `src/components/Base.astro`는 페이지에서 공통으로 사용하는 HTML 기반 레이아웃이다.
+- `src/components/Base.astro`는 SEO 메타데이터와 공통 HTML을 제공하는 최상위 레이아웃이다.
+- `src/layouts/Post.astro`는 포스트 제목·설명·본문 스타일을 제공하고 `Base.astro`를 사용한다. 포스트 페이지와 홈페이지 Markdown 페이지는 이 레이아웃을 사용한다.
+- 홈페이지는 `src/pages/index.md`에 작성하며, 소개문과 페이지 메타데이터를 Markdown 프론트매터 및 본문으로 관리한다.
 - `src/data/menu.json`은 사이드바의 카테고리 메뉴와 포스트 정렬 방향을 관리한다.
 - 메뉴 항목은 `category`, `title`, `order`를 가진다. `order` 값은 `asc` 또는 `desc`이며 배열 순서는 메뉴 표시 순서다.
 - `src/pages/category/[slug].astro`는 메뉴에 등록되어 있고 `content/<category>/` 폴더가 존재하는 카테고리 페이지를 `/category/<category>` 주소로 정적으로 생성한다.
 - 카테고리 포스트는 파일명에 지정한 순번을 기준으로 메뉴의 `order` 방향에 맞게 표시한다. 메뉴에 없는 콘텐츠 카테고리는 카테고리 페이지에서 제외한다.
-- `src/pages/post/[slug].astro`는 메뉴에 등록된 카테고리의 포스트 상세 페이지를 `/post/<slug>` 주소로 정적으로 생성한다.
+- `src/pages/post/[slug].astro`는 메뉴에 등록된 카테고리의 포스트 상세 페이지를 `/post/<slug>` 주소로 정적으로 생성하고 `src/layouts/Post.astro`를 사용한다.
 - 카테고리 목록의 포스트 제목 링크는 해당 `/post/<slug>` 페이지를 가리킨다.
 - `astro.config.mjs`의 `site`는 `https://znkblog.github.io`로 설정한다. canonical URL, 구조화 데이터, robots 및 sitemap의 도메인은 이 사이트 주소와 일치시킨다.
 - `src/pages/sitemap.xml.ts`는 홈, 실제 생성되는 카테고리 페이지, 메뉴에 등록된 카테고리의 포스트 페이지 URL을 sitemap으로 만든다. `public/robots.txt`는 크롤링을 허용하고 sitemap URL을 알린다.
@@ -36,6 +38,7 @@
 # 디자인 규칙
 
 - 공통 스타일은 `src/styles/global.css`에 작성하고 `Base.astro`에서 불러온다.
+- 일반 텍스트는 NanumSquareRound WOFF2를 사용하고 `pre`, `code`, `kbd`, `samp`는 D2Coding WOFF2를 사용한다. 폰트 파일은 `public/fonts/`에 두고 각 폰트의 라이선스와 출처를 함께 보존한다.
 - 페이지에 한정된 스타일은 해당 Astro 파일의 `<style>`에 작성한다.
 - 레이아웃과 메뉴의 기존 태그 구조는 명시적인 요청이 없는 한 변경하지 않는다.
 - 사이드바와 본문은 반응형으로 유지한다. 화면 폭 1200px 미만에서는 사이드바를 기본적으로 왼쪽 화면 밖에 두고 토글 버튼으로 열고 닫으며, 본문은 화면 너비를 모두 사용한다.

@@ -1,0 +1,11 @@
+Copyright (c) 2010, NAVER Corporation (https://www.navercorp.com/)
+Reserved Font Names: NanumSquareRound
+
+This Font Software is licensed under the SIL Open Font License, Version 1.1.
+The font may be used, studied, modified, and redistributed under the terms of
+the license. The font software itself may not be sold by itself.
+
+Official license and terms:
+https://help.naver.com/service/30016/contents/18088?osType=PC&lang=ko
+Font source:
+https://github.com/item4/kfonts/tree/main/packages/nanum-square-round
