@@ -9,7 +9,10 @@ export async function getStaticPaths() {
   const posts = await getCollection("posts");
 
   function getPostOrder(filePath: string | undefined) {
-    const filename = filePath?.split(/[\\/]/).at(-1);
+    const pathParts = filePath?.split(/[\\/]/) ?? [];
+    const filename = pathParts.at(-1) === "index.md"
+      ? pathParts.at(-2)
+      : pathParts.at(-1);
     const match = filename?.match(/^\[(\d+)\]/);
 
     if (!match) {

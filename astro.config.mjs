@@ -1,5 +1,15 @@
 import { defineConfig } from "astro/config";
 import { unified } from "@astrojs/markdown-remark";
+import githubLight from "@shikijs/themes/github-light";
+
+const codeTheme = {
+  ...githubLight,
+  name: "github-light-blockquote",
+  colors: {
+    ...githubLight.colors,
+    "editor.background": "#f5f0e7",
+  },
+};
 
 function rehypeReplaceAdsense() {
   return (tree) => {
@@ -18,9 +28,9 @@ function rehypeReplaceAdsense() {
           tagName: "div",
           properties: { className: ["adsense-placeholder2"] },
           children: [
-            { type: "text", value: "AdSense 광고 영역" },
+            { type: "text", value: "예비 영역" },
             { type: "element", tagName: "br", properties: {}, children: [] },
-            { type: "text", value: "100% × 250" },
+            { type: "text", value: "100% x 250" },
           ],
         };
       });
@@ -35,6 +45,7 @@ function rehypeReplaceAdsense() {
 export default defineConfig({
   site: "https://znkblog.github.io",
   markdown: {
+    shikiConfig: { theme: codeTheme },
     processor: unified({ rehypePlugins: [rehypeReplaceAdsense] }),
   },
 });

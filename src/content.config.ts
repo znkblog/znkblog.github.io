@@ -7,11 +7,13 @@ const posts = defineCollection({
     pattern: "**/*.md",
     base: "./content",
     generateId: ({ entry }) => {
-      const match = entry.match(/^([^/]+)\/\[(\d+)\](.+)\.md$/);
+      const match = entry.match(
+        /^([^/]+)\/\[(\d+)\](.+?)(?:\.md|\/index\.md)$/,
+      );
 
       if (!match) {
         throw new Error(
-          `Invalid post filename "${entry}". Expected "<category>/[<order>]<slug>.md".`,
+          `Invalid post path "${entry}". Expected "<category>/[<order>]<slug>.md" or "<category>/[<order>]<slug>/index.md".`,
         );
       }
 

@@ -18,7 +18,7 @@
 - `src/layouts/Header.astro`, `Menu.astro`, `Adsense.astro`, `Footer.astro`는 사이드바의 각 영역을 구성한다. 기존 레이아웃과 메뉴의 태그 구조는 명시적인 요청 없이 바꾸지 않는다.
 - 홈페이지 콘텐츠와 메타데이터는 `src/pages/index.md`에서 관리한다.
 - `src/data/menu.json` 배열이 사이드바 메뉴 순서와 카테고리별 정렬 방향을 정한다. 항목은 `category`, `title`, `order`를 가지며 `order`는 `asc` 또는 `desc`다.
-- `src/pages/category/[slug].astro`는 메뉴에 등록되고 `content/<category>/` 폴더가 있는 카테고리 페이지를 만든다. 포스트는 파일명 순번을 오름차순으로 정렬하고 `order: "desc"`이면 역순으로 표시한다. 제목 링크는 `/post/<slug>`를 가리킨다.
+- `src/pages/category/[slug].astro`는 메뉴에 등록되고 `content/<category>/` 폴더가 있는 카테고리 페이지를 만든다. 포스트는 파일 또는 포스트 폴더 이름의 순번을 오름차순으로 정렬하고 `order: "desc"`이면 역순으로 표시한다. 제목 링크는 `/post/<slug>`를 가리킨다.
 - `src/pages/post/[slug].astro`는 메뉴에 등록된 카테고리의 포스트 상세 페이지를 만들고 `src/layouts/Post.astro`를 사용한다. 같은 슬러그가 여러 카테고리에 있으면 경로가 겹칠 수 있으므로 슬러그는 사이트 전체에서 고유하게 유지한다.
 - `astro.config.mjs`의 `site`는 `https://znkblog.github.io`다. 주소를 바꾸면 canonical, 구조화 데이터, `src/pages/sitemap.xml.ts`, `public/robots.txt`의 주소도 함께 확인한다.
 - 사이트맵은 홈, 메뉴에 등록되고 콘텐츠 폴더가 있는 카테고리, 메뉴에 등록된 카테고리의 포스트를 포함한다. 포스트의 `<lastmod>`는 프론트매터의 `updated` 값이다.
@@ -27,8 +27,9 @@
 
 # 콘텐츠 규칙
 
-- 포스트는 프로젝트 루트의 `content/<category>/` 아래에 `[순번]슬러그.md` 형식으로 둔다. 대괄호 안 숫자는 목록 정렬용이며 슬러그는 포스트 URL에 사용된다.
-- `src/content.config.ts`가 `content/`를 읽어 포스트 ID를 `<category>/<slug>`로 만든다. 파일명 형식이 다르면 콘텐츠 로딩 오류가 난다.
+- 포스트는 프로젝트 루트의 `content/<category>/` 아래에 `[순번]슬러그/index.md` 형식으로 둔다. 이미지 등 포스트에 딸린 리소스도 같은 `[순번]슬러그/` 폴더에 두고 Markdown에서 상대 경로로 참조한다. 기존 `[순번]슬러그.md` 형식도 지원한다.
+- 대괄호 안 숫자는 카테고리 목록 정렬용이며 슬러그는 포스트 URL에 사용된다. 포스트 폴더 이름은 `[순번]슬러그` 형식을 따른다.
+- `src/content.config.ts`가 `content/`를 읽어 포스트 ID를 `<category>/<slug>`로 만든다. 파일형 포스트는 Markdown 파일명, 폴더형 포스트는 `index.md`를 담은 폴더 이름에서 ID와 순번을 가져온다. 두 형식 이외의 Markdown 경로는 콘텐츠 로딩 오류가 난다.
 - 각 포스트 프론트매터에는 `title`, `description`, `updated`, `tags`를 작성한다. `updated`는 `yyyy-mm-dd` 문자열이고 `tags`는 문자열 배열이다.
 - 단독 Markdown 주석 `<!--adsense-->`는 `astro.config.mjs`의 rehype 플러그인에서 `adsense-placeholder2` 요소로 바뀐다. 교체할 때는 HTML 문자열을 텍스트 노드로 넣지 말고 HAST 요소 노드로 만든다.
 
