@@ -13,13 +13,13 @@
 
 # 프로젝트 구조와 라우팅
 
-- `src/layouts/Base.astro`는 공통 HTML 문서, 사이드바 레이아웃, 사이트 메타데이터를 출력한다.
-- `src/layouts/Post.astro`는 `Base.astro`를 사용하며 제목, 설명, Markdown 본문을 담는 포스트 레이아웃이다. 홈페이지 Markdown도 이 레이아웃을 사용한다.
-- `src/layouts/Header.astro`, `Menu.astro`, `Adsense.astro`, `Footer.astro`는 사이드바의 각 영역을 구성한다. 기존 레이아웃과 메뉴의 태그 구조는 명시적인 요청 없이 바꾸지 않는다.
+- `src/layouts/base.astro`는 공통 HTML 문서, 사이드바 레이아웃, 사이트 메타데이터를 출력한다.
+- `src/layouts/post.astro`는 `base.astro`를 사용하며 제목, 설명, Markdown 본문을 담는 포스트 레이아웃이다. 홈페이지 Markdown도 이 레이아웃을 사용한다.
+- `src/layouts/header.astro`, `menu.astro`, `adsense.astro`, `footer.astro`는 사이드바의 각 영역을 구성한다. 기존 레이아웃과 메뉴의 태그 구조는 명시적인 요청 없이 바꾸지 않는다.
 - 홈페이지 콘텐츠와 메타데이터는 `src/pages/index.md`에서 관리한다.
 - `src/data/menu.json` 배열이 사이드바 메뉴 순서와 카테고리별 정렬 방향을 정한다. 항목은 `category`, `title`, `order`를 가지며 `order`는 `asc` 또는 `desc`다.
 - `src/pages/category/[slug].astro`는 메뉴에 등록되고 `content/<category>/` 폴더가 있는 카테고리 페이지를 만든다. 포스트는 파일 또는 포스트 폴더 이름의 순번을 오름차순으로 정렬하고 `order: "desc"`이면 역순으로 표시한다. 제목 링크는 `/post/<slug>`를 가리킨다.
-- `src/pages/post/[slug].astro`는 메뉴에 등록된 카테고리의 포스트 상세 페이지를 만들고 `src/layouts/Post.astro`를 사용한다. 같은 슬러그가 여러 카테고리에 있으면 경로가 겹칠 수 있으므로 슬러그는 사이트 전체에서 고유하게 유지한다.
+- `src/pages/post/[slug].astro`는 메뉴에 등록된 카테고리의 포스트 상세 페이지를 만들고 `src/layouts/post.astro`를 사용한다. 같은 슬러그가 여러 카테고리에 있으면 경로가 겹칠 수 있으므로 슬러그는 사이트 전체에서 고유하게 유지한다.
 - `astro.config.mjs`의 `site`는 `https://znkblog.github.io`다. 주소를 바꾸면 canonical, 구조화 데이터, `src/pages/sitemap.xml.ts`, `public/robots.txt`의 주소도 함께 확인한다.
 - 사이트맵은 홈, 메뉴에 등록되고 콘텐츠 폴더가 있는 카테고리, 메뉴에 등록된 카테고리의 포스트를 포함한다. 포스트의 `<lastmod>`는 프론트매터의 `updated` 값이다.
 - `public/llms.txt`는 사이트와 콘텐츠 안내 파일이다. 글이나 카테고리를 추가·변경하면 내용과 링크를 실제 사이트에 맞게 갱신한다.
@@ -43,8 +43,8 @@
 
 # 메타데이터와 사이트 검색 정보
 
-- `src/layouts/Base.astro`는 페이지별 props를 받아 제목, 설명, canonical, robots/Googlebot, Open Graph, Twitter, JSON-LD를 출력한다. 기본 공유 이미지와 사이트 공통값은 레이아웃에 정의되어 있다.
-- 페이지 메타데이터는 `src/layouts/Post.astro`의 `frontmatter` 또는 `Base.astro`의 `props`로 전달한다. canonical 절대 주소는 `Astro.site`를 기준으로 한다.
+- `src/layouts/base.astro`는 페이지별 props를 받아 제목, 설명, canonical, robots/Googlebot, Open Graph, Twitter, JSON-LD를 출력한다. 기본 공유 이미지와 사이트 공통값은 레이아웃에 정의되어 있다.
+- 페이지 메타데이터는 `src/layouts/post.astro`의 `frontmatter` 또는 `base.astro`의 `props`로 전달한다. canonical 절대 주소는 `Astro.site`를 기준으로 한다.
 - 공통 JSON-LD에는 `WebSite`, `Organization`, `WebPage`가 포함된다. 포스트 상세는 `BlogPosting`, 카테고리는 `CollectionPage`와 순서가 있는 `ItemList`를 전달한다. 화면에 없는 내용이나 확인되지 않은 작성자·게시일·소유 정보를 추가하지 않는다.
 - 포스트의 수정일과 주제어는 프론트매터의 `updated`, `tags`를 사용한다. `public/robots.txt`는 전체 크롤링을 허용하고 사이트맵 주소를 안내한다.
 - 페이지 제목과 설명, 구조화 데이터는 실제 페이지 내용과 일치시킨다. 새 SEO 메타데이터나 구조화 데이터는 사용자가 요청했거나 작업 범위상 필요한 경우에만 변경한다.
