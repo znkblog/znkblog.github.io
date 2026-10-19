@@ -1,7 +1,10 @@
 ---
 import "reset-css/reset.css";
 import "../styles/global.css";
-import menuItems from "../data/menu.json";
+import Header from "./Header.astro";
+import Adsense from "./Adsense.astro";
+import Menu from "./Menu.astro";
+import Footer from "./Footer.astro";
 
 interface SeoProps {
   title?: string;
@@ -25,7 +28,7 @@ const { props = {} } = Astro.props;
 const siteName = props.siteName ?? "찌니코 블로그";
 const title = props.title ?? siteName;
 const description =
-  props.description ?? "문과 출신 비전공자 찌니코의 IT 관심사항 블로그입니다.";
+  props.description ?? "문과 출신 IT 비전공 기획업무 종사자 찌니꼬가 IT에 관심을 가지고 배우며 알게 된 내용을 기록하는 블로그";
 const siteURL = Astro.site ?? new URL("https://znkblog.github.io");
 const canonicalURL = new URL(props.canonicalURL ?? Astro.url.pathname, siteURL);
 const ogImage = new URL(props.ogImage ?? "/og-image.png", siteURL);
@@ -102,27 +105,16 @@ const structuredData = {
       <div id="container">
         <div id="sidebar">
           <div id="header-wrapper">
-            <header>찌니꼬 블로그</header>
+            <Header />
           </div>
           <div id="adsense-wrapper">
-            <div class="adsense-placeholder">AdSense 광고 영역<br />300 × 250</div>
+            <Adsense />
           </div>
           <div id="menu-wrapper">
-              <menu>
-                <ul>
-                  <li><a href="/">홈</a></li>
-                  {menuItems.map((item) => (
-                    <li><a href={`/category/${item.category}`}>{item.title}</a></li>
-                  ))}
-                </ul>
-              </menu>
+            <Menu />
           </div>
           <div id="footer-wrapper">
-              <footer>
-                <div>This Website is designed by ZNK,</div>
-                <div>Generated with Astro,</div>
-                <div>and Powered by GitHub Pages.</div>
-              </footer>
+            <Footer />
           </div>
         </div>
         <button id="sidebar-toggle" type="button" aria-controls="sidebar" aria-expanded="false" aria-label="메뉴 열기">
