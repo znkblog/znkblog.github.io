@@ -1,8 +1,8 @@
 ---
-title: "[배열] 이진 탐색"
+title: "이진 탐색"
 description: "오름차순으로 정렬된 배열에서 특정 원소를 찾아내는 가장 효율적인 방법"
 updated: "2026-10-19"
-tags: ["array", "binary_search"]
+tags: ["알고리즘", "이진탐색"]
 ---
 
 ## 이진 탐색 알고리즘
@@ -57,7 +57,7 @@ nums = [2, 3, 5, 7, 7, 7, 7, 7, 7, 11, 13]
 ``` python
 import bisect
 class Solution:
-    def searchInsert(self, nums: List[int], target: int) -> int:
+    def searchInsert(self, nums: list[int], target: int) -> int:
         return bisect_left(nums, target)
 ```
 
