@@ -1,3 +1,4 @@
 [
-  { "category": "vibe", "title": "바이브코딩", "order": "desc" }
+  { "category": "vibe", "title": "바이브코딩", "order": "desc" },
+  { "category": "algorithm", "title": "알고리즘 스터디", "order": "asc" }
 ]
