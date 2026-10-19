@@ -1,5 +1,5 @@
 ---
-layout: ../layouts/post.astro
+layout: ../layouts/Post.astro
 title: "찌니꼬 블로그"
 description: "문과 출신 IT 비전공 기획업무 종사자 찌니꼬가 IT에 관심을 가지고 배우며 알게 된 내용을 기록하는 블로그"
 canonicalURL: "https://znkblog.github.io/"

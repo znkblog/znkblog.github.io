@@ -3,7 +3,7 @@
   font-style: normal;
   font-weight: 400;
   font-display: swap;
-  src: url("/fonts/nanum-square-round/nanumsquareroundr.woff2") format("woff2");
+  src: url("/fonts/nanum-square-round/NanumSquareRoundR.woff2") format("woff2");
 }
 
 @font-face {
@@ -11,7 +11,7 @@
   font-style: normal;
   font-weight: 700;
   font-display: swap;
-  src: url("/fonts/nanum-square-round/nanumsquareroundb.woff2") format("woff2");
+  src: url("/fonts/nanum-square-round/NanumSquareRoundB.woff2") format("woff2");
 }
 
 @font-face {
@@ -19,7 +19,7 @@
   font-style: normal;
   font-weight: 400;
   font-display: swap;
-  src: url("/fonts/d2coding/d2coding-regular.woff2") format("woff2");
+  src: url("/fonts/d2coding/D2Coding-Regular.woff2") format("woff2");
 }
 
 @font-face {
@@ -27,7 +27,7 @@
   font-style: normal;
   font-weight: 700;
   font-display: swap;
-  src: url("/fonts/d2coding/d2coding-bold.woff2") format("woff2");
+  src: url("/fonts/d2coding/D2Coding-Bold.woff2") format("woff2");
 }
 
 body {
