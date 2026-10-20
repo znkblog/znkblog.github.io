@@ -41,6 +41,12 @@ const structuredData = {
 <Base props={{ title, description, canonicalURL, structuredData }}>
   <nav>
     <h1>{title}</h1>
+    <input
+      class="category-search"
+      type="text"
+      placeholder="검색어를 입력하고 엔터키 누르세요"
+      aria-label="카테고리 포스트 검색"
+    />
     {posts.map((post) => {
       const postSlug = post.id.slice(post.id.indexOf("/") + 1);
 
@@ -49,7 +55,10 @@ const structuredData = {
           <li class="post-items">
             <div class="post-title"><a href={`/post/${postSlug}`}>{post.data.title}</a></div>
             <div class="post-description">{post.data.description}</div>
-            <div class="post-updated">{post.data.updated}</div>
+            <div class="post-meta">
+              <div class="post-updated">{post.data.updated}</div>
+              {post.data.tags.map((tag) => <span class="post-tag">{tag}</span>)}
+            </div>
           </li>
         </ul>
       );
@@ -57,10 +66,119 @@ const structuredData = {
   </nav>
 </Base>
 
+<script>
+  const searchInput = document.querySelector<HTMLInputElement>(".category-search");
+  const postItems = Array.from(document.querySelectorAll<HTMLLIElement>(".post-items"));
+
+  if (!searchInput) {
+    throw new Error("Category search input is missing.");
+  }
+
+  function clearHighlights(post: HTMLLIElement) {
+    post.querySelectorAll("mark.search-highlight").forEach((mark) => {
+      mark.replaceWith(document.createTextNode(mark.textContent ?? ""));
+    });
+    post.normalize();
+  }
+
+  function highlightMatches(post: HTMLLIElement, query: string) {
+    const walker = document.createTreeWalker(post, NodeFilter.SHOW_TEXT);
+    const textNodes: Text[] = [];
+    let node: Node | null;
+
+    while ((node = walker.nextNode())) {
+      if (node instanceof Text && node.textContent.toLocaleLowerCase().includes(query)) {
+        textNodes.push(node);
+      }
+    }
+
+    for (const textNode of textNodes) {
+      const text = textNode.textContent ?? "";
+      const lowerText = text.toLocaleLowerCase();
+      const fragment = document.createDocumentFragment();
+      let cursor = 0;
+      let matchIndex = lowerText.indexOf(query, cursor);
+
+      while (matchIndex !== -1) {
+        fragment.append(text.slice(cursor, matchIndex));
+        const mark = document.createElement("mark");
+        mark.className = "search-highlight";
+        mark.textContent = text.slice(matchIndex, matchIndex + query.length);
+        fragment.append(mark);
+        cursor = matchIndex + query.length;
+        matchIndex = lowerText.indexOf(query, cursor);
+      }
+
+      fragment.append(text.slice(cursor));
+      textNode.replaceWith(fragment);
+    }
+  }
+
+  function showAllPosts() {
+    for (const post of postItems) {
+      clearHighlights(post);
+      post.hidden = false;
+    }
+  }
+
+  searchInput.addEventListener("input", () => {
+    if (!searchInput.value.trim()) {
+      showAllPosts();
+    }
+  });
+
+  searchInput.addEventListener("keydown", (event) => {
+    if (event.key !== "Enter" || event.isComposing) {
+      return;
+    }
+
+    event.preventDefault();
+    const query = searchInput.value.trim().toLocaleLowerCase();
+
+    for (const post of postItems) {
+      clearHighlights(post);
+      const matches = !query || post.textContent?.toLocaleLowerCase().includes(query);
+      post.hidden = !matches;
+
+      if (matches && query) {
+        highlightMatches(post, query);
+      }
+    }
+  });
+</script>
+
 <style>
   nav {
     max-width: 740px;
     margin: 0 auto;
+  }
+
+  .category-search {
+    box-sizing: border-box;
+    width: 100%;
+    margin-bottom: 16px;
+    padding: 12px 14px;
+    border: 1px solid #d8cec0;
+    /* border-radius: 6px; */
+    outline: none;
+    color: #20343a;
+    background: #fffdf8;
+    box-shadow: 0 3px 12px rgb(54 44 30 / 4%);
+    font: inherit;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .category-search::placeholder {
+    color: #92958e;
+  }
+
+  .category-search:hover {
+    border-color: #b9aa98;
+  }
+
+  .category-search:focus {
+    border-color: #624b71;
+    box-shadow: 0 0 0 3px rgb(98 75 113 / 14%);
   }
 
   nav > h1 {
@@ -113,9 +231,32 @@ const structuredData = {
   }
 
   .post-updated {
-    margin-top: 14px;
+    flex: 0 0 auto;
+    padding-top: 2px;
     color: #85877f;
     font-size: 0.82rem;
+  }
+
+  .post-meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: 10px 8px;
+    margin-top: 14px;
+  }
+
+  .post-tag {
+    padding: 2px 8px;
+    color: #624b71;
+    background: #f0eaf3;
+    font-size: 0.75rem;
+    line-height: 1.5;
+  }
+
+  :global(mark.search-highlight) {
+    color: inherit;
+    background-color: #ffeb7a;
   }
 
   @media (max-width: 600px) {
