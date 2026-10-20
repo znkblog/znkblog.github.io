@@ -44,6 +44,17 @@ function rehypeReplaceAdsense() {
 
 export default defineConfig({
   site: "https://znkblog.github.io",
+  vite: {
+    server: {
+      proxy: {
+        "/stat": {
+          target: "https://znkblog.github.io",
+          changeOrigin: true,
+          secure: true,
+        },
+      },
+    },
+  },
   markdown: {
     shikiConfig: { theme: codeTheme },
     processor: unified({ rehypePlugins: [rehypeReplaceAdsense] }),

@@ -1,8 +1,199 @@
 ---
 ---
 
-<footer>
-    <div>This Website is designed by ZNK,</div>
-    <div>Generated with Astro,</div>
-    <div>and Powered by GitHub Pages.</div>
+<footer class="site-footer">
+    <section class="visitor-card" aria-labelledby="visitor-title">
+        <div class="visitor-card__heading">
+            <div>
+                <h2 id="visitor-title">최근 방문자</h2>
+                <p>GA 활성 사용자 · 최근 7일</p>
+            </div>
+            <strong id="visitor-total" aria-live="polite">—</strong>
+        </div>
+        <div class="visitor-chart" id="visitor-chart" role="img" aria-label="최근 7일 활성 사용자 통계를 불러오는 중입니다.">
+            <span class="visitor-chart__status">통계를 불러오는 중…</span>
+        </div>
+    </section>
 </footer>
+
+<style>
+    .site-footer {
+        flex: 0 0 auto;
+        box-sizing: border-box;
+        width: 100%;
+        max-width: 100%;
+        padding: 10px 0 0;
+        color: #cfc3dc;
+        background: #352447;
+        text-align: center;
+    }
+
+    .visitor-card {
+        box-sizing: border-box;
+        width: 100%;
+        max-width: 100%;
+        margin-bottom: 0;
+        padding: 11px 12px 0;
+        border: 0;
+        border-radius: 0;
+        background: transparent;
+        text-align: left;
+    }
+
+    .visitor-card__heading {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 8px;
+    }
+
+    .visitor-card h2 {
+        margin: 0;
+        color: #fffaf0;
+        font-size: 0.83rem;
+        font-weight: 700;
+    }
+
+    .visitor-card p {
+        margin: 2px 0 0;
+        color: #b9a9c8;
+        font-size: 0.65rem;
+    }
+
+    #visitor-total {
+        color: #c8f3d8;
+        font-size: 1.35rem;
+        font-variant-numeric: tabular-nums;
+        line-height: 1;
+    }
+
+    .visitor-chart {
+        position: relative;
+        min-height: 56px;
+        margin-top: 7px;
+    }
+
+    .visitor-chart svg {
+        display: block;
+        width: 100%;
+        height: 56px;
+        overflow: visible;
+    }
+
+    .visitor-chart__status {
+        display: grid;
+        min-height: 56px;
+        place-items: center;
+        color: #b9a9c8;
+        font-size: 0.7rem;
+    }
+
+    @media (max-height: 760px) {
+        .visitor-card {
+            padding-top: 8px;
+            padding-bottom: 0;
+        }
+
+    }
+</style>
+
+<script>
+    type VisitorRecord = { date: string; users: number };
+    type VisitorsPayload = {
+        schemaVersion?: number;
+        metric?: string;
+        data?: Array<{ date?: string; value?: number | string }>;
+    };
+
+    const chart = document.querySelector<HTMLElement>("#visitor-chart");
+    const total = document.querySelector<HTMLElement>("#visitor-total");
+    const endpoint = import.meta.env.DEV
+        ? "/stat/data/visitors.json"
+        : "https://znkblog.github.io/stat/data/visitors.json";
+
+    function normalizeRecords(payload: unknown): VisitorRecord[] {
+        const root = payload && typeof payload === "object"
+            ? payload as VisitorsPayload
+            : null;
+        const source = Array.isArray(payload)
+            ? payload
+            : Array.isArray(root?.data)
+              ? root.data
+              : [];
+
+        return source
+            .map((item): VisitorRecord | null => {
+                if (!item || typeof item !== "object") return null;
+                const row = item as Record<string, unknown>;
+                const dateValue = row.date ?? row.day ?? row.dateRange ?? row.dimensionValues;
+                const userValue = row.value ?? row.activeUsers ?? row.active_users ?? row.users ?? row.metricValues;
+                const dateText = Array.isArray(dateValue)
+                    ? String((dateValue[0] as Record<string, unknown> | undefined)?.value ?? dateValue[0] ?? "")
+                    : String(dateValue ?? "");
+                const userText = Array.isArray(userValue)
+                    ? String((userValue[0] as Record<string, unknown> | undefined)?.value ?? userValue[0] ?? "")
+                    : String(userValue && typeof userValue === "object"
+                        ? (userValue as Record<string, unknown>).value ?? ""
+                        : userValue ?? "");
+                const users = Number(userText);
+                const date = dateText.replace(/^(\d{4})(\d{2})(\d{2})$/, "$1-$2-$3");
+                return date && Number.isFinite(users) ? { date, users } : null;
+            })
+            .filter((record): record is VisitorRecord => record !== null)
+            .sort((a, b) => a.date.localeCompare(b.date))
+            .slice(-7);
+    }
+
+    function drawChart(records: VisitorRecord[]) {
+        if (!chart || !total) return;
+        if (!records.length) {
+            chart.innerHTML = '<span class="visitor-chart__status">표시할 통계가 없습니다.</span>';
+            chart.setAttribute("aria-label", "표시할 방문자 통계가 없습니다.");
+            return;
+        }
+
+        const width = 264;
+        const height = 56;
+        const padX = 7;
+        const padY = 14;
+        const max = Math.max(1, ...records.map((record) => record.users));
+        const points = records.map((record, index) => ({
+            x: padX + (records.length === 1 ? (width - padX * 2) / 2 : index * (width - padX * 2) / (records.length - 1)),
+            y: height - padY - (record.users / max) * (height - padY * 2),
+        }));
+        const line = points.map((point, index) => `${index ? "L" : "M"}${point.x},${point.y}`).join(" ");
+        const area = `${line} L${points.at(-1)?.x},${height - padY} L${points[0].x},${height - padY} Z`;
+        const labels = records.map((record) => {
+            const date = new Date(`${record.date}T00:00:00`);
+            return Number.isNaN(date.getTime()) ? record.date : new Intl.DateTimeFormat("ko-KR", { month: "numeric", day: "numeric" }).format(date);
+        });
+
+        total.textContent = records.at(-1)?.users.toLocaleString("ko-KR") ?? "—";
+        chart.setAttribute("aria-label", `최근 ${records.length}일 활성 사용자: ${records.map((record, index) => `${labels[index]} ${record.users}명`).join(", ")}`);
+        chart.innerHTML = `
+            <svg width="100%" height="${height}" viewBox="0 0 ${width} ${height}" aria-hidden="true" focusable="false">
+                <defs><linearGradient id="visitor-area" x1="0" x2="0" y1="0" y2="1"><stop offset="0%" stop-color="#8ee3ae" stop-opacity=".3"/><stop offset="100%" stop-color="#8ee3ae" stop-opacity="0"/></linearGradient></defs>
+                <path d="M${padX},${height - padY} H${width - padX}" fill="none" stroke="#ffffff" stroke-opacity=".12" stroke-dasharray="3 4"/>
+                <path d="${area}" fill="url(#visitor-area)"/>
+                <path d="${line}" fill="none" stroke="#9be7b4" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                ${points.map((point, index) => `<text x="${point.x}" y="${Math.max(9, point.y - 7)}" text-anchor="middle" fill="#fffaf0" font-size="9" font-family="sans-serif">${records[index].users.toLocaleString("ko-KR")}</text>`).join("")}
+                ${points.map((point) => `<circle cx="${point.x}" cy="${point.y}" r="3" fill="#352447" stroke="#c8f3d8" stroke-width="2"/>`).join("")}
+                <text x="0" y="53" text-anchor="start" fill="#b9a9c8" font-size="9" font-family="sans-serif">${labels[0]}</text>
+                ${points.length > 1 ? `<text x="257" y="53" text-anchor="end" fill="#b9a9c8" font-size="9" font-family="sans-serif">${labels.at(-1)}</text>` : ""}
+            </svg>
+            `;
+    }
+
+    if (chart) {
+        fetch(endpoint)
+            .then((response) => {
+                if (!response.ok) throw new Error("Visitor data request failed");
+                return response.json() as Promise<unknown>;
+            })
+            .then((data) => drawChart(normalizeRecords(data)))
+            .catch(() => {
+                chart.innerHTML = '<span class="visitor-chart__status">통계를 불러오지 못했습니다.</span>';
+                chart.setAttribute("aria-label", "방문자 통계를 불러오지 못했습니다.");
+            });
+    }
+</script>
