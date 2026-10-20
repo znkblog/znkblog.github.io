@@ -38,10 +38,9 @@ export async function GET() {
 
   for (const post of posts) {
     const separatorIndex = post.id.indexOf("/");
-    const category = post.id.slice(0, separatorIndex);
 
-    if (separatorIndex === -1 || !allowedCategories.has(category)) {
-      continue;
+    if (separatorIndex === -1) {
+      throw new Error(`Invalid post ID "${post.id}". Expected "<category>/<slug>".`);
     }
 
     const slug = post.id.slice(separatorIndex + 1);

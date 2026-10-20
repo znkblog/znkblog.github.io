@@ -1,24 +1,21 @@
 ---
 import { getCollection, render } from "astro:content";
 import Post from "../../layouts/Post.astro";
-import menu from "../../data/menu.json";
 
 export async function getStaticPaths() {
   const posts = await getCollection("posts");
-  const categories = new Set(menu.map(({ category }) => category));
 
-  return posts.flatMap((post) => {
+  return posts.map((post) => {
     const separatorIndex = post.id.indexOf("/");
-    const category = post.id.slice(0, separatorIndex);
 
-    if (separatorIndex === -1 || !categories.has(category)) {
-      return [];
+    if (separatorIndex === -1) {
+      throw new Error(`Invalid post ID "${post.id}". Expected "<category>/<slug>".`);
     }
 
-    return [{
+    return {
       params: { slug: post.id.slice(separatorIndex + 1) },
       props: { post },
-    }];
+    };
   });
 }
 

@@ -14,7 +14,7 @@
 # 현재 디렉터리 구조
 
 - `content/`는 실제 Markdown 포스트와 포스트별 이미지 리소스를 보관한다. 현재 공개 카테고리는 `algorithm`, `vibe`다.
-- `content/_test/`는 Markdown 동작 확인용 콘텐츠다. 컬렉션에는 로드되지만 `src/data/menu.json`에 등록되지 않아 공개 카테고리, 포스트 경로, 사이트맵에는 포함되지 않는다.
+- `content/_test/`는 Markdown 동작 확인용 콘텐츠다. 컬렉션, 포스트 경로, 사이트맵에는 포함되지만 `src/data/menu.json`에 등록되지 않아 카테고리 페이지와 사이드바 메뉴에는 나타나지 않는다.
 - `src/layouts/`는 공통 문서와 화면 레이아웃을, `src/pages/`는 홈과 정적 경로 생성 코드를 담는다.
 - `src/data/menu.json`은 공개 카테고리와 표시 순서 및 포스트 정렬 방향을 관리한다.
 - `src/styles/global.css`는 폰트, 공통 색상, 사이드바와 반응형 레이아웃을 관리한다.
@@ -28,10 +28,12 @@
 - `src/layouts/Post.astro`는 `Base.astro`를 사용하며 제목, 설명, Markdown 본문을 담는 포스트 레이아웃이다. 홈페이지 Markdown도 이 레이아웃을 사용한다.
 - `src/layouts/Header.astro`, `Menu.astro`, `Adsense.astro`, `Footer.astro`는 사이드바의 각 영역을 구성한다. 기존 레이아웃과 메뉴의 태그 구조는 명시적인 요청 없이 바꾸지 않는다.
 - 홈페이지 콘텐츠와 메타데이터는 `src/pages/index.md`에서 관리한다.
+- `src/pages/404.astro`는 홈과 같은 `Post.astro` 레이아웃을 사용하며 빌드 결과 루트에 GitHub Pages용 `404.html`을 생성한다. canonical은 `/404.html`을 사용하고 검색 결과에 노출되지 않도록 `noindex`를 유지하며 사이트맵에는 넣지 않는다.
 - `src/data/menu.json` 배열이 사이드바 메뉴 순서와 카테고리별 정렬 방향을 정한다. 항목은 `category`, `title`, `order`를 가지며 `order`는 `asc` 또는 `desc`다.
-- `src/pages/post/[slug].astro`는 메뉴에 등록된 카테고리의 포스트 상세 경로를 만들고 `src/layouts/Post.astro`로 렌더링한다. 같은 슬러그가 여러 카테고리에 있으면 `/post/<slug>` 경로가 겹치므로 슬러그는 사이트 전체에서 고유하게 유지한다.
+- `menu.json`은 사이드바의 `Menu.astro`와 `src/pages/category/[slug].astro`의 카테고리 목록·정렬에 사용한다. 포스트 상세 페이지 생성과 사이트맵의 포스트 포함 여부를 제한하는 용도로 사용하지 않는다.
+- `src/pages/post/[slug].astro`는 `posts` 컬렉션의 모든 포스트 상세 경로를 만들고 `src/layouts/Post.astro`로 렌더링한다. `menu.json` 등록 여부는 포스트 생성에 영향을 주지 않는다. 같은 슬러그가 여러 카테고리에 있으면 `/post/<slug>` 경로가 겹치므로 슬러그는 사이트 전체에서 고유하게 유지한다.
 - `astro.config.mjs`의 `site`는 `https://znkblog.github.io`다. 주소를 바꾸면 canonical, 구조화 데이터, `src/pages/sitemap.xml.ts`, `public/robots.txt`의 주소도 함께 확인한다.
-- `src/pages/sitemap.xml.ts`는 홈, 메뉴에 등록되고 콘텐츠 폴더가 존재하는 카테고리, 그 카테고리의 포스트만 사이트맵에 넣는다. 포스트의 `<lastmod>`는 프론트매터의 `updated` 값이다.
+- `src/pages/sitemap.xml.ts`는 홈, 생성되는 카테고리 페이지, `posts` 컬렉션의 모든 포스트를 사이트맵에 넣는다. 포스트의 `<lastmod>`는 프론트매터의 `updated` 값이다.
 - `public/llms.txt`는 사이트 안내 파일이다. 사이트 설명이나 주요 안내 주소를 변경하면 실제 사이트와 일치하도록 갱신한다.
 - `public/favicon.svg`, `public/apple-touch-icon.png`, `public/og-image.png`는 사이트 아이콘과 기본 공유 이미지다.
 
@@ -42,7 +44,7 @@
 - 폴더형 포스트의 이미지 등 리소스는 같은 `[순번]<slug>/` 폴더에 두고 Markdown에서 상대 경로로 참조한다.
 - `generateId`는 경로의 순번을 제외하고 컬렉션 ID를 `<category>/<slug>`로 만든다. 대괄호 안 숫자는 ID에 포함되지 않으며 카테고리 목록 정렬에만 사용한다.
 - 스키마는 `title`, `description`, `updated`, `tags`를 필수로 검증한다. `updated`는 `yyyy-mm-dd` 형식의 문자열이고 `tags`는 문자열 배열이다.
-- `src/pages/category/[slug].astro`, `src/pages/post/[slug].astro`, `src/pages/sitemap.xml.ts`는 모두 `getCollection("posts")`로 같은 컬렉션을 읽은 뒤 `src/data/menu.json`에 등록된 카테고리만 공개 대상으로 거른다.
+- `src/pages/category/[slug].astro`는 `src/data/menu.json`에 등록된 카테고리만 목록 페이지로 만든다. `src/pages/post/[slug].astro`와 `src/pages/sitemap.xml.ts`는 메뉴 등록 여부와 관계없이 `getCollection("posts")`의 모든 포스트를 사용한다.
 - `src/pages/post/[slug].astro`는 선택한 항목을 `render(post)`로 Markdown 컴포넌트로 변환한다.
 - 단독 Markdown 주석 `<!--adsense-->`는 `astro.config.mjs`의 rehype 플러그인에서 `div.adsense-placeholder2` HAST 요소로 바뀐다. 교체할 때는 HTML 문자열을 텍스트 노드로 넣지 않는다.
 
