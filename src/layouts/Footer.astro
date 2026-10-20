@@ -107,9 +107,7 @@
 
     const chart = document.querySelector<HTMLElement>("#visitor-chart");
     const total = document.querySelector<HTMLElement>("#visitor-total");
-    const endpoint = import.meta.env.DEV
-        ? "/stat/data/visitors.json"
-        : "https://znkblog.github.io/stat/data/visitors.json";
+    const endpoint = "https://znkblog.github.io/stat/data/visitors.json";
 
     function normalizeRecords(payload: unknown): VisitorRecord[] {
         const root = payload && typeof payload === "object"
@@ -185,13 +183,14 @@
     }
 
     if (chart) {
-        fetch(endpoint)
+        fetch(endpoint, { cache: "no-store" })
             .then((response) => {
-                if (!response.ok) throw new Error("Visitor data request failed");
+                if (!response.ok) throw new Error(`Visitor data request failed: HTTP ${response.status}`);
                 return response.json() as Promise<unknown>;
             })
             .then((data) => drawChart(normalizeRecords(data)))
-            .catch(() => {
+            .catch((error: unknown) => {
+                console.error("방문자 통계를 불러오거나 그래프로 표시하지 못했습니다.", error);
                 chart.innerHTML = '<span class="visitor-chart__status">통계를 불러오지 못했습니다.</span>';
                 chart.setAttribute("aria-label", "방문자 통계를 불러오지 못했습니다.");
             });
