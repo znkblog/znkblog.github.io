@@ -107,7 +107,7 @@
 
     const chart = document.querySelector<HTMLElement>("#visitor-chart");
     const total = document.querySelector<HTMLElement>("#visitor-total");
-    const endpoint = "https://znkblog.github.io/stat/data/visitors.json";
+    const endpoint = "/stat/data/visitors.json";
 
     function normalizeRecords(payload: unknown): VisitorRecord[] {
         const root = payload && typeof payload === "object"
