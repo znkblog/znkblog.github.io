@@ -10,7 +10,7 @@ tags: ["leetcode", "array", "brute_force", "hash_table"]
 - 주어진 `nums` 배열에서, 합이 `target`이 되는 두 원소를 찾아, 그 인덱스를 리턴하는 문제
 - 동일한 원소를 두번 더하지 않으며, 합이 `target`되는 케이스가 반드시 오직 하나 존재함
 
-## 완전 탐색
+## 완전 탐색(Brute Force)
 ```python
 # 런타임 1831 ms, 메모리 19.8 MB
 class Solution:
@@ -24,7 +24,7 @@ class Solution:
 - 전체 원소 쌍 케이스를 만들 때, 외부 루프 `i`는 제일 마지막 원소를 탐색할 필요가 없고, 내부 루프 `j`는 `i`보다 앞선 인덱스를 탐색할 필요 없음
 - 문제에서 반드시 답이 하나 존재한다고 했으므로, 합이 `target`이 되는 원소를 찾으면 바로 인덱스를 리턴하고 종료
 
-## 해시 테이블
+## 해시 테이블(Hash Table)
 ```python
 # 런타임 1 ms, 메모리 20.4 MB
 class Solution:

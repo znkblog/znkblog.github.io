@@ -10,7 +10,7 @@ tags: ["leetcode", "array", "binary_search", "two_pointers"]
 - 오름차순 정렬되어있는 `nums` 배열에서, `target`이 위치한 또는 `target`이 들어갈 수 있는 인덱스를 찾아 리턴하는 문제
 - 반드시 시간복잡도 O(log N)으로 풀어야 함
 
-## 이진 탐색
+## 이진 탐색(Binary Search)
 ```python
 # 런타임 0 ms, 메모리 19.8 MS
 class Solution:
