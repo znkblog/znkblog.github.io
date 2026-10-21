@@ -44,6 +44,10 @@ function rehypeReplaceAdsense() {
 
 export default defineConfig({
   site: "https://znkblog.github.io",
+  trailingSlash: "never",
+  build: {
+    format: "file",
+  },
   vite: {
     server: {
       proxy: {

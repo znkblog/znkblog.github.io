@@ -17,7 +17,7 @@ function escapeXml(value: string) {
 export async function GET() {
   const posts = await getCollection("posts");
   const allowedCategories = new Set<string>();
-  const urls = new Map<string, string | undefined>([[`${siteURL}/`, undefined]]);
+  const urls = new Map<string, string | undefined>([[`${siteURL}`, undefined]]);
 
   for (const { category, order } of menu) {
     if (!/^[\w-]+$/.test(category)) {
@@ -33,7 +33,7 @@ export async function GET() {
     }
 
     allowedCategories.add(category);
-    urls.set(`${siteURL}/category/${encodeURIComponent(category)}/`, undefined);
+    urls.set(`${siteURL}/category/${encodeURIComponent(category)}`, undefined);
   }
 
   for (const post of posts) {
