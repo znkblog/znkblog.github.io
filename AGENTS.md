@@ -33,6 +33,7 @@
 - `menu.json`은 사이드바의 `Menu.astro`와 `src/pages/category/[slug].astro`의 카테고리 목록·정렬에 사용한다. 포스트 상세 페이지 생성과 사이트맵의 포스트 포함 여부를 제한하는 용도로 사용하지 않는다.
 - `src/pages/post/[slug].astro`는 `posts` 컬렉션의 모든 포스트 상세 경로를 만들고 `src/layouts/Post.astro`로 렌더링한다. `menu.json` 등록 여부는 포스트 생성에 영향을 주지 않는다. 같은 슬러그가 여러 카테고리에 있으면 `/post/<slug>` 경로가 겹치므로 슬러그는 사이트 전체에서 고유하게 유지한다.
 - `astro.config.mjs`의 `site`는 `https://znkblog.github.io`다. 주소를 바꾸면 canonical, 구조화 데이터, `src/pages/sitemap.xml.ts`, `public/robots.txt`의 주소도 함께 확인한다.
+- `astro.config.mjs`는 `trailingSlash: "never"`로 루트 외 페이지 URL 끝에 `/`를 붙이지 않고, `build.format: "file"`로 빌드한다. 예를 들어 `/post/<slug>`의 빌드 파일은 `dist/post/<slug>.html`이며 홈페이지는 `dist/index.html`이다.
 - `src/pages/sitemap.xml.ts`는 홈, 생성되는 카테고리 페이지, `posts` 컬렉션의 모든 포스트를 사이트맵에 넣는다. 포스트의 `<lastmod>`는 프론트매터의 `updated` 값이다.
 - `public/llms.txt`는 사이트 안내 파일이다. 사이트 설명이나 주요 안내 주소를 변경하면 실제 사이트와 일치하도록 갱신한다.
 - `public/favicon.svg`, `public/apple-touch-icon.png`, `public/og-image.png`는 사이트 아이콘과 기본 공유 이미지다.
