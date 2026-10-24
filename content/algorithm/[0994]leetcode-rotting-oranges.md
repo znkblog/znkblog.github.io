@@ -1,7 +1,7 @@
 ---
 title: "leetcode: 994. Rotting Oranges"
 description: "grid 안에 있는 썩은 오렌지가 매분마다 상하좌우에 있는 다른 오렌지를 썩게 만들 때 몇분만에 모든 오렌지를 썩게 만드는지 구하는 문제"
-updated: "2026-10-xx"
+updated: "2026-10-24"
 tags: ["leetcode", "array", "breadth_first_search", "matrix"]
 ---
 
