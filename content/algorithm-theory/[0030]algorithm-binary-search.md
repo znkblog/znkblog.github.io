@@ -2,7 +2,7 @@
 title: "이진 탐색"
 description: "오름차순으로 정렬된 데이터 집합에서 타겟 값을 빠르게 찾는 알고리즘"
 updated: "2026-10-26"
-tags: ["알고리즘", "이분탐색", "이진탐색"]
+tags: ["알고리즘", "이분탐색", "이진탐색", "algorithm", "binary_search"]
 ---
 
 ## 이진 탐색(Binary Search)

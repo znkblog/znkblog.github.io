@@ -2,7 +2,7 @@
 title: "기본 개념"
 description: "입력한 데이터 크기 N에 따른 시간과 메모리의 증가 정도를 표현하는 복잡도와 Big-O 표기법"
 updated: "2026-10-26"
-tags: ["알고리즘", "복잡도", "빅오"]
+tags: ["알고리즘", "복잡도", "빅오", "algorithm", "big_O", "complexity"]
 ---
 
 ## 알고리즘과 복잡도
