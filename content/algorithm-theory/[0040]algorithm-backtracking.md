@@ -2,7 +2,7 @@
 title: "백트래킹"
 description: "가능한 선택을 탐색하고 정답이 될 수 없는 경로를 가지치기하는 알고리즘"
 updated: "2026-10-27"
-tags: ["알고리즘", "백트래킹", "깊이우선탐색", "algorithm", "backtracking", "depth_first_search"]
+tags: ["알고리즘", "깊이우선탐색", "백트래킹", "algorithm", "backtracking", "depth_first_search"]
 ---
 
 ## 백트래킹(Backtracking)
