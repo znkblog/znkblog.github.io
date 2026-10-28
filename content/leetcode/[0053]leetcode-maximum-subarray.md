@@ -56,7 +56,7 @@ def f(nums: List[int]) -> (int, int, int, int):
     return max(Xl, Xt+Yl), max(Xm, Xr+Yl, Ym), max(Xr+Yt, Yr), Xt+Yt
 ```
 
-`f` 함수가 [분할 정복](/post/coding-test-theory#분할-정복divide-and-conquer)을 수행하는 재귀함수다.
+`f` 함수가 [분할 정복](/post/coding-test-basic#분할-정복divide-and-conquer)을 수행하는 재귀함수다.
 
 나뉘어진 두개의 배열 X, Y를 다시 하나로 합치는 과정에서 X의 최대 부분합을 `Xm`, Y의 최대 부분합을 `Ym`이라 했을 때, X+Y의 최대 부분합은 `Xm`, `Ym` 둘중 하나가 아니라 하나의 케이스를 더 봐야 한다. 아래 예시로 설명해보자.
 

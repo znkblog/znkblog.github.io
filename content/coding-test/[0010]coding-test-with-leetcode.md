@@ -1,5 +1,5 @@
 ---
-title: "chatgpt가 추천한 코딩테스트 합격 위해 풀어봐야할 leetcode 문제"
+title: "ai 추천 코딩테스트 합격 위해 풀어봐야할 leetcode 문제들"
 description: "대기업 코딩테스트 유형 연습을 위해서 반드시 그리고 추가적으로 풀어볼만한 leetcode 문제 예시"
 updated: "2026-10-27"
 tags: ["algorithm", "coding_test", "leetcode"]
@@ -43,7 +43,7 @@ chatgpt는 폭넓게 여러개 풀어보기 보다는 유형별 대표문제를 
 
 ### DFS·BFS·그래프
 - 200\. Number of Islands
-- [994. Rotting Oranges](post/leetcode-rotting-oranges)
+- [994. Rotting Oranges](/post/leetcode-rotting-oranges)
 - 133\. Clone Graph
 - 207\. Course Schedule
 - 417\. Pacific Atlantic Water Flow
@@ -67,9 +67,9 @@ chatgpt는 폭넓게 여러개 풀어보기 보다는 유형별 대표문제를 
 - 134\. Gas Station
 
 ### 동적 계획법
-- [70. Climbing Stairs](post/leetcode-climbing-stairs)
+- [70. Climbing Stairs](/post/leetcode-climbing-stairs)
 - 198\. House Robber
-- 322. Coin Change
+- 322\. Coin Change
 - 300\. Longest Increasing Subsequence
 - 1143\. Longest Common Subsequence
 - 139\. Word Break
@@ -82,4 +82,4 @@ chatgpt는 폭넓게 여러개 풀어보기 보다는 유형별 대표문제를 
 - 721\. Accounts Merge
 
 ## chatgpt 추천은 아니지만 따로 풀어본 것들
-- [53. Maximum Subarray](post/leetcode-maximum-subarray) - `divide_and_conquer`, `dynamic_programming`
+- [53. Maximum Subarray](/post/leetcode-maximum-subarray) - `divide_and_conquer`, `dynamic_programming`

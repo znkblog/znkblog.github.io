@@ -35,7 +35,7 @@ class Solution:
         return count
 ```
 
-큐 자료구조와 반복문으로 [너비우선탐색](/post/coding-test-basic#너비우선탐색bfsbredth-first-search) 구현, 큐를 나타내는 `qu`에는 썩은 오렌지가 `(y좌표, x좌료, 경과된시간)` 형식의 튜플로 담기도록 하였다.
+큐 자료구조와 반복문으로 [너비우선탐색](/post/coding-test-basic#너비우선탐색bfs-bredth-first-search) 구현, 큐를 나타내는 `qu`에는 썩은 오렌지가 `(y좌표, x좌료, 경과된시간)` 형식의 튜플로 담기도록 하였다.
 
 while 반복문 직전에 `qu`에 `grid` 안 썩은 오렌지 초기 정보를 담는다. 처음부터 썩어있었기 때문에 경과된 시간은 0이다.
 
