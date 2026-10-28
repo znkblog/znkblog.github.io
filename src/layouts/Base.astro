@@ -25,11 +25,11 @@ interface Props {
 }
 
 const { props = {} } = Astro.props;
-const siteName = props.siteName ?? "찌니코 블로그";
+const siteName = props.siteName ?? "찌니코 스터디 블로그";
 const title = props.title ?? siteName;
 const description =
-  props.description ?? "문과 출신 IT 비전공 기획업무 종사자 찌니꼬가 IT에 관심을 가지고 배우며 알게 된 내용을 기록하는 블로그";
-const siteURL = Astro.site ?? new URL("https://znkblog.github.io");
+  props.description ?? "문과 출신 it 비전공 기획업무 종사자 찌니꼬가 it와 이런저런 다른 것들에 관심가지고 배우며 알게 된 내용을 기록하는 웹사이트 겸 블로그";
+const siteURL = Astro.site ?? new URL("https://znkblog.kr");
 const canonicalURL = new URL(props.canonicalURL ?? Astro.url.pathname, siteURL);
 const ogImage = new URL(props.ogImage ?? "/og-image.png", siteURL);
 const lang = props.lang ?? "ko";
