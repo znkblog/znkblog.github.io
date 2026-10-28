@@ -16,7 +16,7 @@ chatgpt는 폭넓게 여러개 풀어보기 보다는 유형별 대표문제를 
 
 ## 1단계: 반드시 풀 문제 30개
 ### 배열·해시
-- [1. Two Sum](/post/leetcode-two-sum) - `brute_force`, `hash_table`
+- [1. Two Sum](/post/leetcode-two-sum) - `array`, `brute_force`, `hash_table`
 - 49\. Group Anagrams
 - 128\. Longest Consecutive Sequence
 - 238\. Product of Array Except Self
@@ -30,7 +30,7 @@ chatgpt는 폭넓게 여러개 풀어보기 보다는 유형별 대표문제를 
 - 209\. Minimum Size Subarray Sum
 
 ### 스택·큐
-- 20\. Valid Parentheses
+- [20. Valid Parentheses](/post/leetcode-valid-parentheses) - `stack`, `string`
 - 739\. Daily Temperatures
 - 155\. Min Stack
 - 239\. Sliding Window Maximum
@@ -43,7 +43,7 @@ chatgpt는 폭넓게 여러개 풀어보기 보다는 유형별 대표문제를 
 
 ### DFS·BFS·그래프
 - 200\. Number of Islands
-- [994. Rotting Oranges](/post/leetcode-rotting-oranges) - `breadth-first-search`
+- [994. Rotting Oranges](/post/leetcode-rotting-oranges) - `array`, `breadth-first-search`, `matrix`
 - 133\. Clone Graph
 - 207\. Course Schedule
 - 417\. Pacific Atlantic Water Flow
