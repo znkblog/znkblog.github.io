@@ -4,8 +4,9 @@ import menuItems from "../data/menu.json";
 
 <menu>
     <ul>
-        {menuItems.map((item) => (
+        <li><a href="/post/coding-test-with-leetcode">leetcode 풀이</a></li>
+        menuItems.map((item) => (
             <li><a href={`/category/${item.category}`}>{item.title}</a></li>
-        ))}
+        ))
     </ul>
 </menu>

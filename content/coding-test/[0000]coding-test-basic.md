@@ -5,6 +5,10 @@ updated: "2026-10-28"
 tags: ["algorithm", "coding_test", "leetcode"]
 ---
 
+## 스택(Stack)과 큐(Queue)
+
+## 해시 테이블(Hash Table)
+
 ## 완전 탐색(Brute Force)
 
 ## 백트래킹(Backtracking)
@@ -14,3 +18,7 @@ tags: ["algorithm", "coding_test", "leetcode"]
 ## 메모이제이션(Memoization)
 
 ## 분할 정복(Divide and Conquer)
+
+## 깊이우선탐색(DFS, Depth First Search)
+
+## 너비우선탐색(BFS, Bredth First Search)
