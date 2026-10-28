@@ -17,69 +17,69 @@ chatgpt는 폭넓게 여러개 풀어보기 보다는 유형별 대표문제를 
 ## 1단계: 반드시 풀 문제 30개
 ### 배열·해시
 - [1. Two Sum](/post/leetcode-two-sum) - `brute_force`, `hash_table`
-- 49. Group Anagrams
-- 128. Longest Consecutive Sequence
-- 238. Product of Array Except Self
-- 560. Subarray Sum Equals K
+- 49\. Group Anagrams
+- 128\. Longest Consecutive Sequence
+- 238\. Product of Array Except Self
+- 560\. Subarray Sum Equals K
 
 ### 투 포인터·슬라이딩 윈도우
-- 15. 3Sum
-- 42. Trapping Rain Water
-- 121. Best Time to Buy and Sell Stock
-- 3. Longest Substring Without Repeating Characters
-- 209. Minimum Size Subarray Sum
+- 15\. 3Sum
+- 42\. Trapping Rain Water
+- 121\. Best Time to Buy and Sell Stock
+- 3\. Longest Substring Without Repeating Characters
+- 209\. Minimum Size Subarray Sum
 
 ### 스택·큐
-- 20. Valid Parentheses
-- 739. Daily Temperatures
-- 155. Min Stack
-- 239. Sliding Window Maximum
+- 20\. Valid Parentheses
+- 739\. Daily Temperatures
+- 155\. Min Stack
+- 239\. Sliding Window Maximum
 
 ### 이진탐색
-- 704. Binary Search
-- 33. Search in Rotated Sorted Array
-- 875. Koko Eating Bananas
-- 153. Find Minimum in Rotated Sorted Array
+- 704\. Binary Search
+- 33\. Search in Rotated Sorted Array
+- 875\. Koko Eating Bananas
+- 153\. Find Minimum in Rotated Sorted Array
 
 ### DFS·BFS·그래프
-- 200. Number of Islands
+- 200\. Number of Islands
 - [994. Rotting Oranges](post/leetcode-rotting-oranges)
-- 133. Clone Graph
-- 207. Course Schedule
-- 417. Pacific Atlantic Water Flow
-- 127. Word Ladder
+- 133\. Clone Graph
+- 207\. Course Schedule
+- 417\. Pacific Atlantic Water Flow
+- 127\. Word Ladder
 
 ### 백트래킹·완전탐색
-- 78. Subsets
-- 46. Permutations
-- 39. Combination Sum
-- 79. Word Search
-- 22. Generate Parentheses
-- 51. N-Queens
+- 78\. Subsets
+- 46\. Permutations
+- 39\. Combination Sum
+- 79\. Word Search
+- 22\. Generate Parentheses
+- 51\. N-Queens
 
 ## 2단계: 합격권을 위한 추가 문제
 ### 우선순위 큐·그리디
-- 215. Kth Largest Element in an Array
-- 347. Top K Frequent Elements
-- 973. K Closest Points to Origin
-- 56. Merge Intervals
-- 55. Jump Game
-- 134. Gas Station
+- 215\. Kth Largest Element in an Array
+- 347\. Top K Frequent Elements
+- 973\. K Closest Points to Origin
+- 56\. Merge Intervals
+- 55\. Jump Game
+- 134\. Gas Station
 
 ### 동적 계획법
 - [70. Climbing Stairs](post/leetcode-climbing-stairs)
-- 198. House Robber
+- 198\. House Robber
 - 322. Coin Change
-- 300. Longest Increasing Subsequence
-- 1143. Longest Common Subsequence
-- 139. Word Break
-- 416. Partition Equal Subset Sum
+- 300\. Longest Increasing Subsequence
+- 1143\. Longest Common Subsequence
+- 139\. Word Break
+- 416\. Partition Equal Subset Sum
 
 ### 최단경로·Union-Find
-- 743. Network Delay Time
-- 1584. Min Cost to Connect All Points
-- 684. Redundant Connection
-- 721. Accounts Merge
+- 743\. Network Delay Time
+- 1584\. Min Cost to Connect All Points
+- 684\. Redundant Connection
+- 721\. Accounts Merge
 
 ## chatgpt 추천은 아니지만 따로 풀어본 것들
 - [53. Maximum Subarray](post/leetcode-maximum-subarray) - `divide_and_conquer`, `dynamic_programming`
