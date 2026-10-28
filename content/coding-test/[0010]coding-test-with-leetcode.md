@@ -43,7 +43,7 @@ chatgpt는 폭넓게 여러개 풀어보기 보다는 유형별 대표문제를 
 
 ### DFS·BFS·그래프
 - 200\. Number of Islands
-- [994. Rotting Oranges](/post/leetcode-rotting-oranges)
+- [994. Rotting Oranges](/post/leetcode-rotting-oranges) - `breadth-first-search`
 - 133\. Clone Graph
 - 207\. Course Schedule
 - 417\. Pacific Atlantic Water Flow
@@ -67,7 +67,7 @@ chatgpt는 폭넓게 여러개 풀어보기 보다는 유형별 대표문제를 
 - 134\. Gas Station
 
 ### 동적 계획법
-- [70. Climbing Stairs](/post/leetcode-climbing-stairs)
+- [70. Climbing Stairs](/post/leetcode-climbing-stairs) - `dynamic_programming`, `math`, `memoization`
 - 198\. House Robber
 - 322\. Coin Change
 - 300\. Longest Increasing Subsequence
