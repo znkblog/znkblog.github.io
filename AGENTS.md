@@ -13,13 +13,14 @@
 
 # 현재 디렉터리 구조
 
-- `content/`는 실제 Markdown 포스트와 포스트별 이미지 리소스를 보관한다. 현재 공개 카테고리는 `algorithm`, `vibe`다.
-- `content/_test/`는 Markdown 동작 확인용 콘텐츠다. 컬렉션, 포스트 경로, 사이트맵에는 포함되지만 `src/data/menu.json`에 등록되지 않아 카테고리 페이지와 사이드바 메뉴에는 나타나지 않는다.
+- `content/`는 실제 Markdown 포스트와 포스트별 이미지 리소스를 보관한다. 현재 카테고리 폴더는 `blog`, `coding-test`, `leetcode`다.
+- 현재 공개 메뉴는 `src/data/menu.json`에 등록된 `blog`(표시명 `블로그`, `order: "desc"`)다. `coding-test`, `leetcode`는 메뉴에 등록되지 않아 카테고리 페이지와 사이드바 메뉴에는 나타나지 않지만 포스트 상세 경로와 사이트맵에는 포함된다.
 - `src/layouts/`는 공통 문서와 화면 레이아웃을, `src/pages/`는 홈과 정적 경로 생성 코드를 담는다.
 - `src/data/menu.json`은 공개 카테고리와 표시 순서 및 포스트 정렬 방향을 관리한다.
 - `src/styles/global.css`는 폰트, 공통 색상, 사이드바와 반응형 레이아웃을 관리한다.
 - `public/`은 폰트, 아이콘, 공유 이미지, `robots.txt`, `ads.txt`, `llms.txt` 같은 정적 파일을 보관한다.
 - `wip/`는 작업 중인 원고를 보관하며 콘텐츠 컬렉션과 빌드 페이지에 포함되지 않는다.
+- `.github/workflows/`는 GitHub Pages 배포 워크플로를 보관한다.
 - `dist/`, `.astro/`, `node_modules/`는 생성물 또는 의존성 디렉터리이므로 직접 편집하지 않는다.
 
 # 프로젝트 구조와 라우팅
@@ -33,10 +34,18 @@
 - `menu.json`은 사이드바의 `Menu.astro`와 `src/pages/category/[slug].astro`의 카테고리 목록·정렬에 사용한다. 포스트 상세 페이지 생성과 사이트맵의 포스트 포함 여부를 제한하는 용도로 사용하지 않는다.
 - `src/pages/post/[slug].astro`는 `posts` 컬렉션의 모든 포스트 상세 경로를 만들고 `src/layouts/Post.astro`로 렌더링한다. `menu.json` 등록 여부는 포스트 생성에 영향을 주지 않는다. 같은 슬러그가 여러 카테고리에 있으면 `/post/<slug>` 경로가 겹치므로 슬러그는 사이트 전체에서 고유하게 유지한다.
 - `astro.config.mjs`의 `site`는 `https://znkblog.github.io`다. 주소를 바꾸면 canonical, 구조화 데이터, `src/pages/sitemap.xml.ts`, `public/robots.txt`의 주소도 함께 확인한다.
+- 현재 `src/pages/index.md`의 canonical과 `public/llms.txt`의 안내 주소는 `https://znkblog.kr`이며, `Base.astro`와 `404.astro`의 `Astro.site` 대체 주소도 이 도메인이다. 설정과 일부 페이지에 두 도메인이 혼재하므로 주소 변경 작업에서는 이 파일들도 함께 확인한다.
 - `astro.config.mjs`는 `trailingSlash: "never"`로 루트 외 페이지 URL 끝에 `/`를 붙이지 않고, `build.format: "file"`로 빌드한다. 예를 들어 `/post/<slug>`의 빌드 파일은 `dist/post/<slug>.html`이며 홈페이지는 `dist/index.html`이다.
 - `src/pages/sitemap.xml.ts`는 홈, 생성되는 카테고리 페이지, `posts` 컬렉션의 모든 포스트를 사이트맵에 넣는다. 포스트의 `<lastmod>`는 프론트매터의 `updated` 값이다.
 - `public/llms.txt`는 사이트 안내 파일이다. 사이트 설명이나 주요 안내 주소를 변경하면 실제 사이트와 일치하도록 갱신한다.
 - `public/favicon.svg`, `public/apple-touch-icon.png`, `public/og-image.png`는 사이트 아이콘과 기본 공유 이미지다.
+
+# GitHub Pages 배포
+
+- `.github/workflows/deploy-astro-site-to-github-pages.yml`이 정적 빌드와 배포를 담당한다. 실행 트리거는 `workflow_dispatch`이며 push 자동 배포는 설정되어 있지 않다.
+- 빌드 작업은 Ubuntu에서 Node.js 24를 설정하고 `npm i`, `npm run build`를 실행한 뒤 `dist/`를 Pages 아티팩트로 업로드한다.
+- 배포 작업은 빌드 성공 후 `github-pages` 환경에서 `actions/deploy-pages@v4`를 실행한다.
+- 워크플로 권한은 `contents: read`, `pages: write`, `id-token: write`다. 동시 실행 그룹은 `pages`이며 진행 중인 배포를 취소하지 않는다.
 
 # content 폴더 안의 md 읽어오는 구조
 
@@ -59,6 +68,15 @@
 - 검색은 Enter를 눌렀을 때 각 `.post-items`의 전체 텍스트를 대소문자 구분 없이 검사한다. 일치하지 않는 항목은 숨기고 일치 문자열은 `mark.search-highlight`로 강조한다.
 - 검색 입력이 공백을 포함해 비게 되면 Enter 입력 없이 모든 항목과 강조 표시를 즉시 복원한다. 한글 조합 중 Enter는 검색을 실행하지 않는다.
 - 카테고리 전용 검색창과 목록 스타일은 `src/layouts/Category.astro`의 `<style>`에서 관리한다.
+
+# giscus 댓글
+
+- GitHub Pages 블로그의 댓글은 giscus를 사용한다. `src/layouts/Post.astro`에서 `https://giscus.app/client.js`를 외부 스크립트로 직접 불러오며 npm 의존성으로 설치하지 않는다.
+- 댓글 스크립트는 본문 `article`과 하단 `div.adsense-placeholder2` 다음에 있다. 현재 페이지별 조건 없이 `Post.astro`에 포함되어 포스트 상세뿐 아니라 이 레이아웃을 쓰는 홈과 404 페이지에도 적용된다. `Base.astro`를 직접 쓰는 카테고리 페이지에는 포함되지 않는다.
+- 연결 저장소는 `znkblog/znkblog.github.io`이며 `data-repo-id="R_kgDOVKH_mA"`다. GitHub Discussions 카테고리는 `Announcements`이며 `data-category-id="DIC_kwDOVKH_mM4DJ0ir"`다.
+- 댓글 연결 기준은 `data-mapping="pathname"`이고 `data-strict="0"`이다. 포스트 슬러그나 URL 경로를 변경할 때 기존 댓글 연결에 미치는 영향을 확인한다.
+- 현재 표시 설정은 한국어(`data-lang="ko"`), 밝은 테마(`data-theme="light"`), 반응 활성화(`data-reactions-enabled="1"`), 댓글 입력창 하단 배치(`data-input-position="bottom"`), 메타데이터 전송 비활성화(`data-emit-metadata="0"`)다.
+- 스크립트는 `async`와 `crossorigin="anonymous"`를 사용한다. 댓글 관련 변경은 `Post.astro`의 기존 연결 정보와 적용 범위를 기준으로 한다.
 
 # GA 및 방문자통계
 
