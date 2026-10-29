@@ -1,8 +1,8 @@
 ---
 title: "leetcode: 1. Two Sum"
 description: "주어진 nums 배열에서, 합이 target이 되는 두 원소를 찾아 그 인덱스를 리턴하는 문제"
-updated: "2026-10-20"
-tags: ["leetcode", "array", "brute_force", "hash_table"]
+updated: "2026-10-29"
+tags: ["leetcode", "array", "brute_force", "hash_table", "two_pointers"]
 ---
 
 ## 문제
@@ -48,3 +48,25 @@ class Solution:
 `i` 인덱스 순회에서 그 원소인 `x`와의 합이 `target`이 되는 원소가 저장소에 있는지를 검사, 있다면 인덱스 쌍을 리턴하고, 없다면 나중 순회를 위해 현재 순회의 원소값과 인덱스를 `h`에 저장해 둔다.
 
 일반적으로 해시 테이블 자체의 원소 탐색 시간복잡도는 O(1)로 본다. 따라서 전체 코드의 순회가 한번(시간복잡도 O(N))이기 때문에 완전 탐색(시간복잡도 O(N²))보다 실행 속도가 빠르다.
+
+## 정렬 후 투 포인터(Two Pointers)
+```python
+# 런타임 6 ms, 메모리 20.6 MB
+class Solution:
+    def twoSum(self, nums: list[int], target: int) -> list[int]:
+        nums = sorted(list(enumerate(nums)), key=lambda x: x[1])
+        i, j = 0, len(nums)-1
+
+        while i < j:
+            total = nums[i][1] + nums[j][1]
+            if total < target:
+                i += 1
+            elif target < total:
+                j -= 1
+            else:
+                return nums[i][0], nums[j][0]
+```
+
+`nums`를 `(인덱스, 원소값)` 형태의 튜플이 모여있는 배열로 바꾼 뒤 오름차순 정렬을 하고, `nums`의 양 끝단을 각각 `i`와 `j`가 가리키도록 하였다.
+
+[투 포인터](/post/투-포인터two-pointers와-슬라이딩-윈도우sliding-window) 알고리즘을 사용, 배열이 오름차순으로 정렬되어 있기 때문에 두 포인터가 가리키는 원소값의 합이 `target` 작다면 `i`를 늘리고 아니라면 `j`를 줄이는 방식이다.

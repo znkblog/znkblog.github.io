@@ -1,7 +1,7 @@
 ---
 title: "ai 추천 코딩테스트 합격 위해 풀어봐야할 leetcode 문제들"
 description: "대기업 코딩테스트 유형 연습을 위해서 반드시 그리고 추가적으로 풀어볼만한 leetcode 문제 예시"
-updated: "2026-10-27"
+updated: "2026-10-29"
 tags: ["algorithm", "coding_test", "leetcode"]
 ---
 
@@ -16,7 +16,7 @@ chatgpt는 폭넓게 여러개 풀어보기 보다는 유형별 대표문제를 
 
 ## 1단계: 반드시 풀 문제 30개
 ### 배열·해시
-- [1. Two Sum](/post/leetcode-two-sum) - `array`, `brute_force`, `hash_table`
+- [1. Two Sum](/post/leetcode-two-sum) - `array`, `brute_force`, `hash_table`, `two_pointers`
 - 49\. Group Anagrams
 - 128\. Longest Consecutive Sequence
 - 238\. Product of Array Except Self

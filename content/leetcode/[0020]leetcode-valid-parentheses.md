@@ -1,7 +1,7 @@
 ---
 title: "leetcode: 20. Valid Parentheses"
 description: "소·중·대 괄호만으로 이뤄진 문자열 s가 올바른 괄호쌍으로 이뤄진 문자열인지 검사하는 문제"
-updated: "2026-10-xx"
+updated: "2026-10-29"
 tags: ["leetcode", "stack", "string"]
 ---
 
