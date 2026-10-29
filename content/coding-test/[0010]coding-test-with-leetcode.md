@@ -36,7 +36,7 @@ chatgpt는 폭넓게 여러개 풀어보기 보다는 유형별 대표문제를 
 - 239\. Sliding Window Maximum
 
 ### 이진탐색
-- 704\. Binary Search
+- [704. Binary Search](/post/leetcode-binary-search) - `array`, `binary_search`
 - 33\. Search in Rotated Sorted Array
 - 875\. Koko Eating Bananas
 - 153\. Find Minimum in Rotated Sorted Array
@@ -82,4 +82,4 @@ chatgpt는 폭넓게 여러개 풀어보기 보다는 유형별 대표문제를 
 - 721\. Accounts Merge
 
 ## chatgpt 추천은 아니지만 따로 풀어본 것들
-- [53. Maximum Subarray](/post/leetcode-maximum-subarray) - `divide_and_conquer`, `dynamic_programming`
+- [53. Maximum Subarray](/post/leetcode-maximum-subarray) - `array`, `divide_and_conquer`, `dynamic_programming`

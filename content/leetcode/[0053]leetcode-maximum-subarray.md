@@ -2,7 +2,7 @@
 title: "leetcode: 53. Maximum Subarray"
 description: "nums 배열의 연속된 원소들로 부분배열을 만들었을 때, 부분배열의 합 중 최대값을 구하는 문제"
 updated: "2026-10-21"
-tags: ["leetcode", "divide_and_conquer", "dynamic_programming"]
+tags: ["leetcode", "array", "divide_and_conquer", "dynamic_programming"]
 ---
 
 ## 문제

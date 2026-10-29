@@ -1,8 +1,8 @@
 ---
 title: "leetcode: 704. Binary Search"
 description: "오름차순 정렬된 배열에서 target의 위치(인덱스)를 찾아 리턴하는 문제"
-updated: "2026-10-24"
-tags: ["leetcode", "array", "breadth_first_search", "matrix"]
+updated: "2026-10-29"
+tags: ["leetcode", "array", "binary_search"]
 ---
 
 ## 문제
@@ -29,7 +29,7 @@ class Solution:
         return -1 if i == len(nums) or nums[i] != target else i
 ```
 
-오름차순으로 정렬된 배열에서 `target`값을 찾을 때는 [이진 탐색](/post/coding-test#이진-탐색binary-search)를 사용할 수 있다.
+오름차순으로 정렬된 배열에서 `target`값을 찾을 때는 [이진 탐색](/post/coding-test-basic#이진-탐색binary-search)를 사용할 수 있다.
 
 범위를 나타내는 포인터를 `i`이상 `j`미만으로 정의하였다. ~이상 ~미만의 범위이기 때문에 위 코드 if 조건문의 `i`와 `j` 포언터의 조정이 다르다.
 
@@ -48,19 +48,18 @@ target = 7
 
 ## python 라이브러리 사용
 ```python
+# 런타임 0 ms, 메모리 20.5 MB
+import bisect
 
+class Solution:
+    def search(self, nums: list[int], target: int) -> int:
+        i = bisect.bisect_left(nums, target)
+
+        return -1 if i == len(nums) or nums[i] != target else i
 ```
 
+python이 기본 제공하는 이진 탐색 라이브러리를 사용할 수 있다.
 
+bisect 라이브러리 안에 bisect_left, bisect_right(= bisect) 함수가 있는데, bisect_left 함수 결과는 앞 챕터 코드와 같이 `target` 동일값에 대해 `j`를 조정한 것과 같고, bisect_right 함수는 `i` 조정하는 것과 같다.
 
-
-
-## 이진 탐색(Binary Search)
-배열에서 어떤 값을 찾을 땐 순차로 탐색한다. 하지만 배열이 오름차순으로 정렬이 되어있다면 이진 탐색 알고리즘으로 원하는 데이터를 빠르게 찾을 수 있다.
-
-배열 `A`에서 `target`을 찾는다고 하면 아래와 같은 방식을 사용하면 된다.
-> - A 전체 범위에서 중간위치값 middle을 찾아서, target과 비교
-> - middle < target이면 middle 포함 그 아래 데이터들을 모두 버리고, target < middle이면 middle 포함 그 위 데이터들을 모두 버림
-> - 남아있는 범위의 데이터들을 다시 A로 정의하고, 범위가 빌 때까지 위 단계를 계속 반복
-
-더 상세한 설명은 나무위키의 [이진 탐색](https://namu.wiki/w/%EC%9D%B4%EC%A7%84%20%ED%83%90%EC%83%89) 문서를 참고하자.
+더 상세한 설명은 python [bisect 라이브러리](https://docs.python.org/ko/3/library/bisect.html) 문서를 참고하자.
