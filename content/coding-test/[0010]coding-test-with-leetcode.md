@@ -1,7 +1,7 @@
 ---
 title: "ai 추천 코딩테스트 합격 위해 풀어봐야할 leetcode 문제들"
 description: "대기업 코딩테스트 유형 연습을 위해서 반드시 그리고 추가적으로 풀어볼만한 leetcode 문제 예시"
-updated: "2026-10-29"
+updated: "2026-10-30"
 tags: ["algorithm", "coding_test", "leetcode"]
 ---
 
@@ -83,3 +83,4 @@ chatgpt는 폭넓게 여러개 풀어보기 보다는 유형별 대표문제를 
 
 ## chatgpt 추천은 아니지만 따로 풀어본 것들
 - [53. Maximum Subarray](/post/leetcode-maximum-subarray) - `array`, `divide_and_conquer`, `dynamic_programming`
+- [912. Sort an Array](/post/leetcode-sort-an-array) - `array`, `divide_and_conquer`, `heap`
