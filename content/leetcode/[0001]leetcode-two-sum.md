@@ -1,72 +1,75 @@
 ---
 title: "leetcode: 1. Two Sum"
-description: "주어진 nums 배열에서, 합이 target이 되는 두 원소를 찾아 그 인덱스를 리턴하는 문제"
-updated: "2026-10-29"
+description: "정수를 원소로 가진 nums 배열이 있을 때, 합이 target이 되는 원소 쌍을 리턴하는 문제"
+updated: "2026-10-31"
 tags: ["leetcode", "array", "brute_force", "hash_table", "two_pointers"]
 ---
 
-## 문제
 
+## 문제
 [https://leetcode.com/problems/two-sum](https://leetcode.com/problems/two-sum)
 
-주어진 `nums` 배열에서, 합이 `target`이 되는 두 원소를 찾아 그 인덱스를 리턴하는 문제로, 동일한 원소를 두번 더하지 않으며, 합이 `target`되는 케이스가 반드시 오직 하나 존재한다.
+정수를 원소로 가진 `nums` 배열이 있을 때, 합이 `target`이 되는 원소 쌍을 리턴하는 문제다.
+
+반드시 정답이 유일하게 존재한다.
+
 
 ## 완전 탐색(Brute Force)
 ```python
-# 런타임 1831 ms, 메모리 19.8 MB
+# 런타임 1714 ms, 메모리 19.52 MB
 class Solution:
     def twoSum(self, nums: list[int], target: int) -> list[int]:
-        for i, x in enumerate(nums[:-1]):
-            for j, y in enumerate(nums[i+1:], i+1):
-                if x + y == target:
+        for i in range(len(nums) - 1):
+            for j in range(i + 1, len(nums)):
+                if nums[i] + nums[j] == target:
                     return i, j
 ```
 
-이중 루프로 전체 원소 쌍 케이스를 하나하나 탐색하는 [완전 탐색](/post/coding-test-basic#완전-탐색brute-force) 방식이다.
+`nums` 배열로 만들 수 있는 모든 원소 쌍 전수를 탐색하는 [완전 탐색](https://namu.wiki/w/%EB%B8%8C%EB%A3%A8%ED%8A%B8%20%ED%8F%AC%EC%8A%A4) 방식이다.
 
-전체 원소 쌍 케이스를 만들 때, 외부 루프 `i`는 제일 마지막 원소를 탐색할 필요가 없고, 내부 루프 `j`는 `i`보다 앞선 인덱스를 탐색할 필요 없다.
+이중 루프로 구현되어 있다. 외부 루프, 내부 루프 모두 `nums` 모든 원소를 순회할 필요는 없다. 위 코드처럼 루프를 구현해도 모든 원소 쌍을 탐색할 수 있다.
 
-문제에서 반드시 답이 하나 존재한다고 했으므로, 합이 `target`이 되는 원소를 찾으면 바로 인덱스를 리턴하고 종료한다.
 
 ## 해시 테이블(Hash Table)
 ```python
-# 런타임 1 ms, 메모리 20.4 MB
+# 런타임 0 ms, 메모리 20.28 MB
 class Solution:
     def twoSum(self, nums: list[int], target: int) -> list[int]:
-        h = {}
+        ht = {}
 
         for i, x in enumerate(nums):
             y = target - x
-            if y in h:
-                return h[y], i
-
-            h[x] = i
+            if y in ht:
+                return ht[y], i
+            else:
+                ht[x] = i
 ```
 
-[해시 테이블](/post/coding-test-basic#해시-테이블hash-table) 역할의 `h` 딕셔너리 생성하였다. `{ 원소값: 인덱스, ... }` 형태로 데이터 저장한다.
+`ht` 딕셔너리는 [해시 테이블](https://namu.wiki/w/%ED%95%B4%EC%8B%9C#s-4)로서 `{ 원소값: 인덱스, ... }` 형식의 데이터를 저장한다.
 
-`i` 인덱스 순회에서 그 원소인 `x`와의 합이 `target`이 되는 원소가 저장소에 있는지를 검사, 있다면 인덱스 쌍을 리턴하고, 없다면 나중 순회를 위해 현재 순회의 원소값과 인덱스를 `h`에 저장해 둔다.
+`nums`를 순회하면서, 순회하는 원소값 `x`의 상대값 `target - x`가 `ht`에 있는지를 검사, 있다면 리턴하고 없다면 다음 순회를 위해 저장해 둔다.
 
-일반적으로 해시 테이블 자체의 원소 탐색 시간복잡도는 O(1)로 본다. 따라서 전체 코드의 순회가 한번(시간복잡도 O(N))이기 때문에 완전 탐색(시간복잡도 O(N²))보다 실행 속도가 빠르다.
 
-## 정렬 후 투 포인터(Two Pointers)
+## 투 포인터(Two Pointers)
 ```python
-# 런타임 6 ms, 메모리 20.6 MB
+# 런타임 9 ms, 메모리 21.96 MB
 class Solution:
     def twoSum(self, nums: list[int], target: int) -> list[int]:
-        nums = sorted(list(enumerate(nums)), key=lambda x: x[1])
-        i, j = 0, len(nums)-1
+        nums = sorted(
+            [{"idx": i, "val": x} for i, x in enumerate(nums)], key=lambda x: x["val"]
+        )
 
+        i, j = 0, len(nums) - 1
         while i < j:
-            total = nums[i][1] + nums[j][1]
+            total = nums[i]["val"] + nums[j]["val"]
             if total < target:
                 i += 1
             elif target < total:
                 j -= 1
             else:
-                return nums[i][0], nums[j][0]
+                return nums[i]["idx"], nums[j]["idx"]
 ```
 
-`nums`를 `(인덱스, 원소값)` 형태의 튜플이 모여있는 배열로 바꾼 뒤 오름차순 정렬을 하고, `nums`의 양 끝단을 각각 `i`와 `j`가 가리키도록 하였다.
+`nums`를 `{"idx": 인덱스, "val": 원소값}` 데이터를 가진 배열로 변환하고 오름차순으로 정렬을 한다.
 
-[투 포인터](/post/coding-test-basic#투-포인터two-pointers와-슬라이딩-윈도우sliding-window) 알고리즘을 사용, 배열이 오름차순으로 정렬되어 있기 때문에 두 포인터가 가리키는 원소값의 합이 `target` 작다면 `i`를 늘리고 아니라면 `j`를 줄이는 방식이다.
+`nums`의 하한과 상한 인덱스를 가리키는 `i`, `j` 투 포인터를 상정하고, while 반복문 안에서 포인터가 가리키는 원소 쌍의 합 `total`과 `target` 크기를 비교해 `i` 또는 `j`를 조정한다.

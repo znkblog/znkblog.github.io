@@ -97,7 +97,7 @@ menu::-webkit-scrollbar {
   position: relative;
   height: 100%;
   width: 100%;
-  max-width: 1200px;
+  /* max-width: 1200px; */
   margin: 0 auto;
   background: #f4f1eb;
 }
@@ -131,12 +131,13 @@ menu::-webkit-scrollbar {
   overflow-x: hidden;
   overflow-y: auto;
   background: #f4f1eb;
+  max-width: 900px;
 }
 
 #mainview main {
   box-sizing: border-box;
   width: 100%;
-  max-width: 900px;
+  /* max-width: 900px; */
   min-height: 100%;
   margin: 0 auto;
   padding: clamp(28px, 5vw, 68px);
