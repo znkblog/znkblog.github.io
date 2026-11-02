@@ -34,7 +34,7 @@ chatgpt는 폭넓게 여러개 풀어보기 보다는 유형별 대표문제를 
 - 239\. Sliding Window Maximum
 
 ### 이진탐색
-- 704\. Binary Search
+- [704. Binary Search](/post/binary-search) - `array`, `binary_search`
 - 33\. Search in Rotated Sorted Array
 - 875\. Koko Eating Bananas
 - 153\. Find Minimum in Rotated Sorted Array
