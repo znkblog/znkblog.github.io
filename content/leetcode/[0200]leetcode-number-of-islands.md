@@ -2,7 +2,7 @@
 title: "leetcode: 200. Number of Islands"
 description: "이차원 매트릭스로 주어지는 grid에서 '1'은 육지를 '0'은 바다를 의미한다고 할 때, 섬의 개수를 리턴하는 문제"
 updated: "2026-11-02"
-tags: ["leetcode", "breadth_first_search", "depth_first_search", "matrix", "union_find"]
+tags: ["leetcode", "array", "breadth_first_search", "depth_first_search", "matrix", "union_find"]
 ---
 
 
