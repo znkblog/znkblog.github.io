@@ -40,8 +40,8 @@ chatgpt는 폭넓게 여러개 풀어보기 보다는 유형별 대표문제를 
 - 153\. Find Minimum in Rotated Sorted Array
 
 ### DFS·BFS·그래프
-- [200. Number of Islands](/post/leetcode-number-of-islands) - `breadth_first_search`, `depth_first_search`, `matrix`, `union_find`
-- 994\. Rotting Oranges
+- [200. Number of Islands](/post/leetcode-number-of-islands) - `array`, `breadth_first_search`, `depth_first_search`, `matrix`, `union_find`
+- [994. Rotting Oranges](/post/leetcode-rotting-oranges) - `array`, `breadth_first_search`, `matrix`
 - 133\. Clone Graph
 - 207\. Course Schedule
 - 417\. Pacific Atlantic Water Flow
